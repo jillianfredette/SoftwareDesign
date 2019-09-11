@@ -1,10 +1,15 @@
 import javax.swing.*;
+import javax.swing.plaf.metal.*;
 import java.awt.*;
+import java.io.*;
+import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.TimeUnit;
+
+import static java.awt.BorderLayout.WEST;
 
 
 public class CodeEditorFrame extends JFrame implements ActionListener {
@@ -17,11 +22,20 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         this.getContentPane().setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
+        try {
+            // Set look and feel
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+
+            // Set theme to ocean
+            MetalLookAndFeel.setCurrentTheme(new OceanTheme());
+        }
+        catch (Exception e) {
+        }
+
         // Menu Bar
         JMenuBar MenuBar = new JMenuBar();
         this.setJMenuBar(MenuBar);
-        MenuBar.setBackground(Color.lightGray);
-        MenuBar.setPreferredSize(new Dimension(1500, 50));
+        MenuBar.setPreferredSize(new Dimension(1500, 40));
 
         // File Menu
         JMenu FileMenu = new JMenu("File");
@@ -55,18 +69,37 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         MenuBar.add(RunMenu);
 
         // Project Panel
-        JPanel ProjectPanel = new JPanel();
-//        ProjectPanel = new JPanel();
-        this.add(ProjectPanel, BorderLayout.WEST);
-        ProjectPanel.setBackground(Color.WHITE);
-        ProjectPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-        ProjectPanel.setPreferredSize(new Dimension(400, 800));
+//        JPanel ProjectPanel = new JPanel();
+//        this.add(ProjectPanel, WEST);
+//        ProjectPanel.setPreferredSize(new Dimension(400, 800));
+//
+//        JLabel lab1 = new JLabel("User Name", JLabel.LEFT);
+//        ProjectPanel.setLayout(new FlowLayout());
+//        ProjectPanel.add(lab1 = new JLabel("add JLabel"));
+//        add(ProjectPanel);
+
+        ProjectTree theProjectTree = new ProjectTree();
+        this.add(theProjectTree, WEST);
+
+
+
+
+        // Create Project Tree inside Project Panel
+//        ProjectTree theProjectTree = new ProjectTree();
+//        theProjectTree.setVisible(true);
+
+//        ProjectPanel.add(theProjectTree, BorderLayout.WEST);
+
+//        this.add(theProjectTree, WEST);
+//        f.setSize(200,200);
+//        f.setVisible(true);
+
 
         // Code Field
         JTextField CodeField = new JTextField();
         this.add(CodeField, BorderLayout.CENTER);
-        CodeField.setBackground(Color.WHITE);
-        CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
+//        CodeField.setBackground(Color.WHITE);
+//        CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         CodeField.setPreferredSize(new Dimension(700, 800));
 
 
@@ -113,12 +146,28 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     }
 
     public void openProject() {
-        // create frame using OpenProjectFrame class
-        OpenProjectFrame theOpenProjectFrame = new OpenProjectFrame();
-        theOpenProjectFrame.setVisible(true);
+        // create frame
+        JFrame openProjectFrame;
+        openProjectFrame = new JFrame("Open Project");
 
-        // write your code for Open Project functionality here
-        //
+        // Create the File Chooser
+        JFileChooser theFileChooser = new JFileChooser("f:");
+
+        // Invoke the showsOpenDialog function to show the save dialog
+        int r = theFileChooser.showOpenDialog(null);
+
+        // If the user selects a file
+        if (r == JFileChooser.APPROVE_OPTION) {
+            // Set the label to the path of the selected directory
+            File theFile = new File(theFileChooser.getSelectedFile().getAbsolutePath());
+
+            // continue to write your code for Open Project functionality here
+
+
+        }
+        // If the user cancelled the operation
+        else
+            JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
 
     }
 
