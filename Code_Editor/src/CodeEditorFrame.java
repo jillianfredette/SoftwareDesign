@@ -175,6 +175,17 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     public void saveProject() {
         // write your code for Save Project functionality here
+        JFrame saveProjectFrame = new JFrame();
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Project");
+
+        int userSelection = fileChooser.showSaveDialog(saveProjectFrame);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            System.out.println("Save as: " + fileToSave.getAbsolutePath());
+        }
 
     }
 
