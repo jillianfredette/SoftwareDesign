@@ -101,11 +101,14 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         // Code Field
         CodeField = new JTextField();
-        this.add(CodeField, BorderLayout.CENTER);
+
 //        CodeField.setBackground(Color.WHITE);
 //        CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-        CodeField.setPreferredSize(new Dimension(700, 800));
-
+        //CodeField.setPreferredSize(new Dimension(700, 1000));
+        JScrollPane scroll = new JScrollPane(CodeField);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.add(scroll, BorderLayout.CENTER);
 
          // Statistic Panel
         JPanel StatPanel = new JPanel();
