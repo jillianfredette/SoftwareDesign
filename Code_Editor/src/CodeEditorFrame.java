@@ -169,21 +169,21 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         // Opens the file the user selects if the file is acceptable
         if (r == JFileChooser.APPROVE_OPTION) {
-                try {
-                    // Reads the filename and opens the file
-                    FileReader reader = new FileReader(fileName);
+            try {
+                // Reads the filename and opens the file
+                FileReader reader = new FileReader(fileName);
 
-                    // Displays the file
-                    BufferedReader scan = new BufferedReader(reader);
-                    CodeField.read(scan,null);
-                    scan.close();
-                    CodeField.requestFocus();
+                // Displays the file
+                BufferedReader scan = new BufferedReader(reader);
+                CodeField.read(scan,null);
+                scan.close();
+                CodeField.requestFocus();
 
-                }
-                catch(Exception e) {
-                    JOptionPane.showMessageDialog(null,e);
-                }
             }
+            catch(Exception e) {
+                JOptionPane.showMessageDialog(null,e);
+            }
+        }
         // If the user cancelled the operation
         else
             JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
