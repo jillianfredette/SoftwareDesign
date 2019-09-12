@@ -175,17 +175,24 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     public void saveProject() {
         // write your code for Save Project functionality here
-        JFrame saveProjectFrame = new JFrame();
+        JFrame saveProjectFrame = new JFrame("Save Project");
+        JFileChooser fileChooser = new JFileChooser("f");
+        JLabel saveLabel = new JLabel();
 
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Save Project");
+        // Set the selection mode to directories only
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-        int userSelection = fileChooser.showSaveDialog(saveProjectFrame);
+        // Invoke the showsOpenDialog function to show the save dialog
+        int saveDialog = fileChooser.showSaveDialog(null);
 
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            System.out.println("Save as: " + fileToSave.getAbsolutePath());
+        if (saveDialog == JFileChooser.APPROVE_OPTION) {
+            // set the label to the path of the selected directory
+            saveLabel.setText(fileChooser.getSelectedFile().getAbsolutePath());
         }
+        // if the user cancelled the operation
+        else
+//            saveLabel.setText("the user cancelled the operation");
+            JOptionPane.showMessageDialog(saveProjectFrame, "the user cancelled the operation");
 
     }
 
