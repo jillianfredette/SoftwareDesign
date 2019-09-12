@@ -14,6 +14,8 @@ import static java.awt.BorderLayout.WEST;
 
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
+    JTextField CodeField;
+
     public CodeEditorFrame() {
         // Create Frame
         super ("Code Editor");
@@ -96,7 +98,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
         // Code Field
-        JTextField CodeField = new JTextField();
+        CodeField = new JTextField();
         this.add(CodeField, BorderLayout.CENTER);
 //        CodeField.setBackground(Color.WHITE);
 //        CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
@@ -178,6 +180,68 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     public void closeProject() {
         // write your code for Close Project functionality here
+
+        //open new frame to confirm closing of project
+        JFrame CloseProjectFrame = new JFrame("Close Project");
+        CloseProjectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        CloseProjectFrame.setSize(300,150);
+        CloseProjectFrame.setLocation(550, 300);
+
+        JPanel main = new JPanel();
+        CloseProjectFrame.add(main);
+
+        main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
+        JPanel message = new JPanel(new BorderLayout());
+
+        main.add(message);
+
+        JLabel confirmClose = new JLabel("Are you sure you want to close your project?", SwingConstants.CENTER);
+        message.add(confirmClose, BorderLayout.CENTER);
+
+        JPanel buttons = new JPanel(new FlowLayout());
+        main.add(buttons);
+
+        JButton buttonsc = new JButton("Save & Close");
+        JButton buttonclose = new JButton("Close");
+        JButton buttoncancel = new JButton("Cancel");
+
+        buttons.add(buttonsc);
+        buttons.add(buttonclose);
+        buttons.add(buttoncancel);
+
+        //if save & close, save the project and then close it
+        buttonsc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveProject();
+                //close project
+                CodeField.setText("");
+
+                CloseProjectFrame.dispose();
+            }
+        });
+
+        //if yes, close project
+        buttonclose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //close project
+                CodeField.setText("");
+
+                CloseProjectFrame.dispose();
+            }
+        });
+
+        //if cancel, end close operation
+        buttoncancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CloseProjectFrame.dispose();
+            }
+        });
+
+
+        CloseProjectFrame.setVisible(true);
 
     }
 
