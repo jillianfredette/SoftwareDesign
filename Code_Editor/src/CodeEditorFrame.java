@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.metal.*;
 import java.awt.*;
 import java.io.*;
@@ -32,6 +33,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             MetalLookAndFeel.setCurrentTheme(new OceanTheme());
         }
         catch (Exception e) {
+
         }
 
         // Menu Bar
@@ -41,7 +43,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         // File Menu
         JMenu FileMenu = new JMenu("File");
-//        FileMenu.addActionListener(Project);
+        //FileMenu.addActionListener(Project);
 
         JMenuItem NewProject = new JMenuItem("New Project");
         FileMenu.add(NewProject);
@@ -154,19 +156,34 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         // Create the File Chooser
         JFileChooser theFileChooser = new JFileChooser("f:");
+        theFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Java", "java"));
 
         // Invoke the showsOpenDialog function to show the save dialog
-        int r = theFileChooser.showOpenDialog(null);
+        int r = theFileChooser.showOpenDialog(this);
 
-        // If the user selects a file
+        // Gets the file selected using getSelectedFile function
+        File theFile = theFileChooser.getSelectedFile();
+
+        // Passes the path to a String using the getAbsolutePath function
+        String fileName = theFile.getAbsolutePath();
+
+        // Opens the file the user selects if the file is acceptable
         if (r == JFileChooser.APPROVE_OPTION) {
-            // Set the label to the path of the selected directory
-            File theFile = new File(theFileChooser.getSelectedFile().getAbsolutePath());
+                try {
+                    // Reads the filename and opens the file
+                    FileReader reader = new FileReader(fileName);
 
-            // continue to write your code for Open Project functionality here
+                    // Displays the file
+                    BufferedReader scan = new BufferedReader(reader);
+                    CodeField.read(scan,null);
+                    scan.close();
+                    CodeField.requestFocus();
 
-
-        }
+                }
+                catch(Exception e) {
+                    JOptionPane.showMessageDialog(null,e);
+                }
+            }
         // If the user cancelled the operation
         else
             JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
