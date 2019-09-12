@@ -89,10 +89,10 @@ public class NewProjectFrame extends JFrame implements ActionListener {
                       //  }
 
                     }else{
-                        System.out.println("File Already exists");
+                        System.out.println("Folder Already exists");
                         JFrame openProjectFrame;
-                        openProjectFrame = new JFrame("File Exists");
-                        JOptionPane.showMessageDialog(openProjectFrame, "File Exists");
+                        openProjectFrame = new JFrame("Folder Exists");
+                        JOptionPane.showMessageDialog(openProjectFrame, "Folder Exists");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
