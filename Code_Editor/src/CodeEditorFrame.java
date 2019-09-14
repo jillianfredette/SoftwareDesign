@@ -13,6 +13,9 @@ import java.util.concurrent.TimeUnit;
 import static java.awt.BorderLayout.WEST;
 
 
+
+
+
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
     JTextField CodeField;
@@ -72,7 +75,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         MenuBar.add(FileMenu);
         MenuBar.add(RunMenu);
 
-        // Project Panel
+         //Project Panel
 //        JPanel ProjectPanel = new JPanel();
 //        this.add(ProjectPanel, WEST);
 //        ProjectPanel.setPreferredSize(new Dimension(400, 800));
@@ -125,7 +128,43 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         ExecPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         ExecPanel.setPreferredSize(new Dimension(1500, 200));
 
+
+
+
+
+        // RIGHT CLICK DELETE/EDIT FUNCTIONALITY
+        JPopupMenu rMenu = new JPopupMenu();
+        JMenuItem edit = new JMenuItem("Edit");
+        JMenuItem delete = new JMenuItem("Delete");
+
+        edit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
+        rMenu.add(edit);
+        rMenu.add(delete);
+        theProjectTree.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getButton() == MouseEvent.BUTTON3){
+                    rMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+
+
     }
+
+
+
 
     public void actionPerformed(ActionEvent e) {
         String buttonString = e.getActionCommand();
@@ -285,4 +324,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
 
+
 }
+
+

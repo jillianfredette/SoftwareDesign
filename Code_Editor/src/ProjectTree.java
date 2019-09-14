@@ -43,6 +43,8 @@ public class ProjectTree extends JPanel
 
         //Add the tree view to this panel.
         add(treeView);
+
+
     }
 
     /**
@@ -76,6 +78,21 @@ public class ProjectTree extends JPanel
     }
 
     //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/TreeDemoProject/src/components/TreeDemo.java
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

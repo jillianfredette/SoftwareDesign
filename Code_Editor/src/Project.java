@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.lang.String;
 
 
-public class Project{
+public class Project {
 
 
 }
