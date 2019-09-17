@@ -89,8 +89,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         this.add(theProjectTree, WEST);
 
 
-
-
         // Create Project Tree inside Project Panel
 //        ProjectTree theProjectTree = new ProjectTree();
 //        theProjectTree.setVisible(true);
@@ -132,33 +130,74 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
 
+
+
+
+
+
+        //========================================================================================================================================
+
+
+
         // RIGHT CLICK DELETE/EDIT FUNCTIONALITY
-        JPopupMenu rMenu = new JPopupMenu();
-        JMenuItem edit = new JMenuItem("Edit");
-        JMenuItem delete = new JMenuItem("Delete");
+        // WORKS FOR COMPILER AND STATS SECTION BUT NOT THE FILE BROWSERR SECTION
+//        JPopupMenu rMenu = new JPopupMenu();
+//        JMenuItem delete = new JMenuItem("Delete");
+//
+//        addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if(e.getButton() == MouseEvent.BUTTON3){
+//                    rMenu.show(e.getComponent(), e.getX(), e.getY());
+//                    System.out.println("Right Click, Activated");
+//                }
+//            }
+//        });
+//
+//        delete.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent actionEvent) {
+//                System.out.println("This item has been deleted!");
+//            }
+//        });
+//        rMenu.add(delete);
 
-        edit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
 
-            }
-        });
-        delete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
 
-            }
-        });
-        rMenu.add(edit);
-        rMenu.add(delete);
-        theProjectTree.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(e.getButton() == MouseEvent.BUTTON3){
-                    rMenu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-        });
+
+
+
+
+//========================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -180,6 +219,31 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             closeProject();
         }
     }
+
+    public void rightClickPerformed(){
+        JPopupMenu rMenu = new JPopupMenu();
+        JMenuItem delete = new JMenuItem("Delete");
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getButton() == MouseEvent.BUTTON3){
+                    rMenu.show(e.getComponent(), e.getX(), e.getY());
+                    System.out.println("Right Click, Activated");
+                }
+            }
+        });
+
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("This item has been deleted!");
+            }
+        });
+        rMenu.add(delete);
+    }
+
+
 
     public void newProject() {
         // create frame using NewProjectFrame class

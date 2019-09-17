@@ -1,3 +1,5 @@
+//https://docs.oracle.com/javase/tutorial/uiswing/examples/components/TreeDemoProject/src/components/TreeDemo.java
+
 import javax.swing.*;
 import javax.swing.tree.*;
 import javax.swing.plaf.metal.*;
@@ -8,12 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import java.net.URL;
 import javax.swing.event.*;
 
-public class ProjectTree extends JPanel
-        implements TreeSelectionListener {
+public class ProjectTree extends JPanel implements TreeSelectionListener {
     private JEditorPane htmlPane;
     private JTree tree;
     private URL helpURL;
@@ -26,14 +28,12 @@ public class ProjectTree extends JPanel
         super(new GridLayout(1, 0));
 
         //Create the nodes.
-        DefaultMutableTreeNode top =
-                new DefaultMutableTreeNode("Project name");
+        DefaultMutableTreeNode top = new DefaultMutableTreeNode("Project name");
         createNodes(top);
 
         //Create a tree that allows one selection at a time.
         tree = new JTree(top);
-        tree.getSelectionModel().setSelectionMode
-                (TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         //Listen for when the selection changes.
         tree.addTreeSelectionListener(this);
@@ -45,11 +45,20 @@ public class ProjectTree extends JPanel
         add(treeView);
 
 
+        // Show Popup on Tree
+        final TreePopup treePopup = new TreePopup(tree);
+        tree.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                if(e.getButton() == MouseEvent.BUTTON3) {
+                    treePopup.show(e.getComponent(), e.getX(), e.getY());
+                    System.out.println(e.getComponent());
+                }
+            }
+        });
     }
 
-    /**
-     * Required by TreeSelectionListener interface.
-     */
+    // Required by TreeSelectionListener interface.
+
     public void valueChanged(TreeSelectionEvent e) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                 tree.getLastSelectedPathComponent();
@@ -64,6 +73,7 @@ public class ProjectTree extends JPanel
         }
     }
 
+    // Creates Nodes for Tree
     private void createNodes(DefaultMutableTreeNode top) {
         DefaultMutableTreeNode folder = null;
         DefaultMutableTreeNode file = null;
@@ -77,24 +87,47 @@ public class ProjectTree extends JPanel
 
     }
 
-    //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/TreeDemoProject/src/components/TreeDemo.java
+    // Popup Specifics
+    class TreePopup extends JPopupMenu {
+        public TreePopup(JTree tree) {
+            JMenuItem delete = new JMenuItem("Delete");
+            JMenuItem add = new JMenuItem("Add");
+            JTextField field1 = new JTextField("File Name");
+            delete.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    System.out.println("Delete child");
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
+                    DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+                    model.removeNodeFromParent(selectedNode);
+                }
+            });
+            add.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+//                    System.out.println("Add child");
+//                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
+//                    JFrame addNodeFrame;
+//                    addNodeFrame = new JFrame("Add File");
+//                    addNodeFrame.add(field1);
+//                    DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(field1.getText());
+//                    selectedNode.add(newNode);
+
+                }
+            });
+            add(add);
+            add(new JSeparator());
+            add(delete);
+        }
+    }
 
 
+    public void deleteDirectory(Path path) throws IOException {
 
-
-
-
-
-
-
-
-
+    }
 
 
 
 
 }
-
 
 
 
