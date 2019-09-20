@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.nio.file.spi.FileTypeDetector;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -73,20 +74,20 @@ public class NewProjectFrame extends JFrame implements ActionListener {
                         System.out.println("Folder is created");
 
                         dispose();
-                   //     JButton open = new JButton();
-                   //     JFileChooser OpenFile = new JFileChooser();
+                        //     JButton open = new JButton();
+                        //     JFileChooser OpenFile = new JFileChooser();
 
-                      //  OpenFile.setCurrentDirectory(new java.io.File("C:"));
-                    //    OpenFile.setDialogTitle("Hello World");
-                      //  OpenFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                      //  if(OpenFile.showOpenDialog(open) == JFileChooser.APPROVE_OPTION){
-                    //       File hi = OpenFile.getSelectedFile();
-                   //         Scanner input = new Scanner(file);
+                        //  OpenFile.setCurrentDirectory(new java.io.File("C:"));
+                        //    OpenFile.setDialogTitle("Hello World");
+                        //  OpenFile.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                        //  if(OpenFile.showOpenDialog(open) == JFileChooser.APPROVE_OPTION){
+                        //       File hi = OpenFile.getSelectedFile();
+                        //         Scanner input = new Scanner(file);
 
-                  //          while(input.hasNext()){
+                        //          while(input.hasNext()){
 
-                  //          }
-                      //  }
+                        //          }
+                        //  }
 
                     }else{
                         System.out.println("Folder Already exists");
@@ -111,5 +112,3 @@ public class NewProjectFrame extends JFrame implements ActionListener {
     }
 
 }
-
-

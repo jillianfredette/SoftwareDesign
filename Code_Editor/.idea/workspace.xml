@@ -2,7 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ebe4dab4-f4a0-47f0-9097-912a6def043f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Code_Editor/NewProjectFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Code_Editor/NewProjectFrame$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Code_Editor/NewProjectFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Code_Editor/NewProjectFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree$TreePopup$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree$TreePopup$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree$TreePopup$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree$TreePopup$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree$TreePopup.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree$TreePopup.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Code_Editor/ProjectTree.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NewProjectFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NewProjectFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ProjectTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ProjectTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RightClickPopUpMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +39,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
