@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.nio.file.spi.FileTypeDetector;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -189,5 +190,3 @@ public class NewProjectFrame extends JFrame implements ActionListener {
 
 
 }
-
-
