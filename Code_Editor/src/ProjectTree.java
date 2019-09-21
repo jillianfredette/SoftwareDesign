@@ -20,6 +20,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
     private JTree tree;
     private URL helpURL;
     private static boolean DEBUG = false;
+    DefaultMutableTreeNode top;
 
     //Optionally set the look and feel.
     private static boolean useSystemLookAndFeel = false;
@@ -28,7 +29,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         super(new GridLayout(1, 0));
 
         //Create the nodes.
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode("Project name");
+        top = new DefaultMutableTreeNode("Project name");
         createNodes(top);
 
         //Create a tree that allows one selection at a time.
@@ -124,7 +125,11 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
     }
 
+    public void setProjectName(String name) {
+        top.setUserObject(name);
+        ((DefaultTreeModel) tree.getModel()).nodeChanged(top);
 
+    }
 
 
 }

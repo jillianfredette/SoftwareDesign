@@ -7,6 +7,13 @@ import java.lang.String;
 
 
 public class Project {
+    private String ProjectName;
+    private String ProjectPath;
+    private String ProjectSDKPath;
+
+    Project() {
+
+    }
 
 
 }

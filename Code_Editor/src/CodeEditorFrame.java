@@ -13,12 +13,11 @@ import java.util.concurrent.TimeUnit;
 import static java.awt.BorderLayout.WEST;
 
 
-
-
-
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
     JTextField CodeField;
+    ProjectTree theProjectTree;
+
 
     public CodeEditorFrame() {
         // Create Frame
@@ -75,41 +74,27 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         MenuBar.add(FileMenu);
         MenuBar.add(RunMenu);
 
-         //Project Panel
-//        JPanel ProjectPanel = new JPanel();
-//        this.add(ProjectPanel, WEST);
-//        ProjectPanel.setPreferredSize(new Dimension(400, 800));
-//
+        // Project Panel
+        JPanel ProjectPanel = new JPanel();
+        this.add(ProjectPanel, WEST);
+        ProjectPanel.setPreferredSize(new Dimension(200, 800));
+
+        // Code Editor Panel (show up as a grey background when there is no project opened yet)
+//        JPanel CodeFieldBackground = new JPanel();
+//        this.add(CodeFieldBackground, BorderLayout.CENTER);
+//        CodeFieldBackground.setPreferredSize(new Dimension(700, 800));
+//        CodeFieldBackground.setBackground(Color.LIGHT_GRAY);
+////
 //        JLabel lab1 = new JLabel("User Name", JLabel.LEFT);
 //        ProjectPanel.setLayout(new FlowLayout());
 //        ProjectPanel.add(lab1 = new JLabel("add JLabel"));
 //        add(ProjectPanel);
 
-        ProjectTree theProjectTree = new ProjectTree();
+        //
+        theProjectTree = new ProjectTree();
         this.add(theProjectTree, WEST);
+        theProjectTree.setVisible(false);
 
-
-        // Create Project Tree inside Project Panel
-//        ProjectTree theProjectTree = new ProjectTree();
-//        theProjectTree.setVisible(true);
-
-//        ProjectPanel.add(theProjectTree, BorderLayout.WEST);
-
-//        this.add(theProjectTree, WEST);
-//        f.setSize(200,200);
-//        f.setVisible(true);
-
-
-        // Code Field
-        CodeField = new JTextField();
-
-//        CodeField.setBackground(Color.WHITE);
-//        CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-        //CodeField.setPreferredSize(new Dimension(700, 1000));
-        JScrollPane scroll = new JScrollPane(CodeField);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        this.add(scroll, BorderLayout.CENTER);
 
          // Statistic Panel
         JPanel StatPanel = new JPanel();
@@ -125,12 +110,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         ExecPanel.setBackground(Color.WHITE);
         ExecPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         ExecPanel.setPreferredSize(new Dimension(1500, 200));
-
-
-
-
-
-
 
 
 
@@ -164,42 +143,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
 
-
-
-
-
 //========================================================================================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 
@@ -249,6 +193,21 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         // create frame using NewProjectFrame class
         NewProjectFrame theNewProjectFrame = new NewProjectFrame();
         theNewProjectFrame.setVisible(true);
+
+        String ProjectName = theNewProjectFrame.getProjectName();
+        String ProjectPath = theNewProjectFrame.getProjectPath();
+        String ProjectSDK = theNewProjectFrame.getProjectSDKPath();
+
+//        System.out.println(ProjectName + " awesome");
+
+        theProjectTree.setVisible(true);
+//        theProjectTree.setProjectName(ProjectName);
+
+
+
+        CodeField theCodeField = new CodeField();
+        this.add(theCodeField, BorderLayout.CENTER);
+
 
         // write your code for New Project functionality here
 
