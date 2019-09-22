@@ -6,7 +6,14 @@ import java.util.Scanner;
 import java.lang.String;
 
 
-public class Project{
+public class Project {
+    private String ProjectName;
+    private String ProjectPath;
+    private String ProjectSDKPath;
+
+    Project() {
+
+    }
 
 
 }

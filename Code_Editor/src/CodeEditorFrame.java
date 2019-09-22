@@ -16,6 +16,12 @@ import static java.awt.BorderLayout.WEST;
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
     JTextField CodeField;
+    private ProjectTree theProjectTree;
+    private String ProjectName;
+    private String ProjectPath;
+    private String ProjectSDKPath;
+    private NewProjectFrame theNewProjectFrame;
+
 
     public CodeEditorFrame() {
         // Create Frame
@@ -56,8 +62,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         SaveProject.addActionListener(this);
         JMenuItem EditProject = new JMenuItem("Edit Project");
         FileMenu.add(EditProject);
-        JMenuItem RemoveFile = new JMenuItem("Remove File");
-        FileMenu.add(RemoveFile);
         JMenuItem CloseProject = new JMenuItem("Close Project");
         FileMenu.add(CloseProject);
         CloseProject.addActionListener(this);
@@ -73,42 +77,24 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         MenuBar.add(RunMenu);
 
         // Project Panel
-//        JPanel ProjectPanel = new JPanel();
+//        ProjectPanel = new JPanel();
 //        this.add(ProjectPanel, WEST);
-//        ProjectPanel.setPreferredSize(new Dimension(400, 800));
-//
+//        ProjectPanel.setPreferredSize(new Dimension(200, 800));
+
+        // Code Editor Panel (show up as a grey background when there is no project opened yet)
+//        JPanel CodeFieldBackground = new JPanel();
+//        this.add(CodeFieldBackground, BorderLayout.CENTER);
+//        CodeFieldBackground.setPreferredSize(new Dimension(700, 800));
+//        CodeFieldBackground.setBackground(Color.LIGHT_GRAY);
+////
 //        JLabel lab1 = new JLabel("User Name", JLabel.LEFT);
 //        ProjectPanel.setLayout(new FlowLayout());
 //        ProjectPanel.add(lab1 = new JLabel("add JLabel"));
 //        add(ProjectPanel);
 
-        ProjectTree theProjectTree = new ProjectTree();
-        this.add(theProjectTree, WEST);
+        //
 
 
-
-
-        // Create Project Tree inside Project Panel
-//        ProjectTree theProjectTree = new ProjectTree();
-//        theProjectTree.setVisible(true);
-
-//        ProjectPanel.add(theProjectTree, BorderLayout.WEST);
-
-//        this.add(theProjectTree, WEST);
-//        f.setSize(200,200);
-//        f.setVisible(true);
-
-
-        // Code Field
-        CodeField = new JTextField();
-
-//        CodeField.setBackground(Color.WHITE);
-//        CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-        //CodeField.setPreferredSize(new Dimension(700, 1000));
-        JScrollPane scroll = new JScrollPane(CodeField);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        this.add(scroll, BorderLayout.CENTER);
 
          // Statistic Panel
         JPanel StatPanel = new JPanel();
@@ -125,7 +111,43 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         ExecPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         ExecPanel.setPreferredSize(new Dimension(1500, 200));
 
+
+
+
+        //========================================================================================================================================
+
+
+
+        // RIGHT CLICK DELETE/EDIT FUNCTIONALITY
+        // WORKS FOR COMPILER AND STATS SECTION BUT NOT THE FILE BROWSERR SECTION
+//        JPopupMenu rMenu = new JPopupMenu();
+//        JMenuItem delete = new JMenuItem("Delete");
+//
+//        addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if(e.getButton() == MouseEvent.BUTTON3){
+//                    rMenu.show(e.getComponent(), e.getX(), e.getY());
+//                    System.out.println("Right Click, Activated");
+//                }
+//            }
+//        });
+//
+//        delete.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent actionEvent) {
+//                System.out.println("This item has been deleted!");
+//            }
+//        });
+//        rMenu.add(delete);
+
+
+
+//========================================================================================================================================
     }
+
+
+
 
     public void actionPerformed(ActionEvent e) {
         String buttonString = e.getActionCommand();
@@ -142,10 +164,70 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         }
     }
 
+    public void rightClickPerformed(){
+        JPopupMenu rMenu = new JPopupMenu();
+        JMenuItem delete = new JMenuItem("Delete");
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getButton() == MouseEvent.BUTTON3){
+                    rMenu.show(e.getComponent(), e.getX(), e.getY());
+                    System.out.println("Right Click, Activated");
+                }
+            }
+        });
+
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("This item has been deleted!");
+            }
+        });
+        rMenu.add(delete);
+    }
+
+
+    public void displayNewProject (String theProjectName, String theProjectPath, String theProjectSDK) {
+
+        ProjectName = theProjectName;
+        ProjectPath = theProjectPath;
+        ProjectSDKPath = theProjectSDK;
+
+        // Create Project Tree
+        theProjectTree = new ProjectTree(this, ProjectName, ProjectPath);
+        this.add(theProjectTree, WEST);
+        theProjectTree.setVisible(false);
+        theProjectTree.setVisible(true);
+
+//        CodeField theCodeField = new CodeField();
+//        this.add(theCodeField, BorderLayout.CENTER);
+
+    }
+
+    public String getProjectName() {
+        return ProjectName;
+    }
+
+    public String getProjectPath() {
+        return ProjectPath;
+    }
+
+    public String getProjectSDKPath() {
+        return ProjectSDKPath;
+    }
+
+
     public void newProject() {
         // create frame using NewProjectFrame class
-        NewProjectFrame theNewProjectFrame = new NewProjectFrame();
+        theNewProjectFrame = new NewProjectFrame(this);
         theNewProjectFrame.setVisible(true);
+
+
+
+//        CodeField theCodeField = new CodeField();
+//        this.add(theCodeField, BorderLayout.CENTER);
+
 
         // write your code for New Project functionality here
 
@@ -253,7 +335,10 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 saveProject();
                 //close project
-                CodeField.setText("");
+                theProjectTree.closeProjectTree();
+                theNewProjectFrame.remove(theProjectTree);
+                theNewProjectFrame.dispose();
+
 
                 CloseProjectFrame.dispose();
             }
@@ -264,7 +349,10 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close project
-                CodeField.setText("");
+                theProjectTree.closeProjectTree();
+                theNewProjectFrame.remove(theProjectTree);
+                theNewProjectFrame.dispose();
+
 
                 CloseProjectFrame.dispose();
             }
@@ -285,4 +373,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
 
+
 }
+
+
