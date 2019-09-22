@@ -21,15 +21,25 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
     private JTree tree;
     private URL helpURL;
     private static boolean DEBUG = false;
+    DefaultMutableTreeNode top;
 
     //Optionally set the look and feel.
     private static boolean useSystemLookAndFeel = false;
 
-    public ProjectTree() {
+    private String ProjectName;
+    private String ProjectPath;
+    private String ProjectSDKPath;
+    private CodeEditorFrame theCodeEditorFrame;
+
+    public ProjectTree(CodeEditorFrame theMainFrame, String theProjectName, String theProjectPath) {
         super(new GridLayout(1, 0));
 
+        ProjectName = theProjectName;
+        ProjectPath = theProjectPath;
+        theCodeEditorFrame = theMainFrame;
+
         //Create the nodes.
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode("Project name");
+        top = new DefaultMutableTreeNode(ProjectName);
         createNodes(top);
 
         //Create a tree that allows one selection at a time.
@@ -79,11 +89,11 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         DefaultMutableTreeNode folder = null;
         DefaultMutableTreeNode file = null;
 
-        folder = new DefaultMutableTreeNode("Project Folder");
+        folder = new DefaultMutableTreeNode("src");
         top.add(folder);
 
         //original Tutorial
-        file = new DefaultMutableTreeNode("File");
+        file = new DefaultMutableTreeNode("Main.java");
         folder.add(file);
 
     }
@@ -92,9 +102,10 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
     // Popup Specifics
     class TreePopup extends JPopupMenu {
-        public TreePopup(JTree tree) {
+        public TreePopup(JTree tree1) {
             JMenuItem delete = new JMenuItem("Delete");
             JMenuItem add = new JMenuItem("Add File");
+            JMenuItem open = new JMenuItem("Open File");
             JMenuItem addFolder = new JMenuItem("Add Folder");
             JTextField field1 = new JTextField("File Name");
             delete.addActionListener(new ActionListener() {
@@ -129,7 +140,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
                         DefaultMutableTreeNode folder = null;
                         selectedNode.add(new DefaultMutableTreeNode(input));
-                        root.add(new DefaultMutableTreeNode("top" + input));
+//                        root.add(new DefaultMutableTreeNode("top" + input));
                         model.reload();
 
 
@@ -142,6 +153,62 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
             add(add);
             add(new JSeparator());
             add(delete);
+            add(new JSeparator());
+
+            open.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
+
+                    if(selectedNode.isLeaf()) {
+                        String diskPath = ProjectPath + "/src/" + selectedNode.getUserObject().toString();
+                        System.out.println(diskPath);
+
+                        File newFile = new File(diskPath);
+
+                        JTabbedPane tabbedPane = new JTabbedPane();
+                        CodeField theCodeField = new CodeField();
+//                        theCodeField.setEditable(false);
+
+                        if (newFile != null)
+                        {
+                            try
+                            {
+                                theCodeField.setPage(newFile.toURI().toURL());
+                            }
+
+                            catch (IOException e1)
+                            {
+                                System.err.println("Attempted to read a bad file " + newFile );
+                                e1.printStackTrace();
+                            }
+                        }
+
+                        else
+                        {
+                            System.err.println("Couldn't find file");
+                        }
+
+
+
+                        tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
+                        theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
+                        tabbedPane.setVisible(false);
+                        tabbedPane.setVisible(true);
+
+
+
+//                        theCodeEditorFrame.add(theCodeField, BorderLayout.CENTER);
+//                        theCodeField.setVisible(false);
+//                        theCodeField.setVisible(true);
+
+
+
+
+                    }
+                }
+            });
+            add(open);
         }
     }
 
@@ -149,7 +216,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
     public void deleteDirectory(Path path) throws IOException {
 
     }
-
 
 
 

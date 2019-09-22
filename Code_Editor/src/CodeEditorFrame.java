@@ -16,7 +16,10 @@ import static java.awt.BorderLayout.WEST;
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
     JTextField CodeField;
-    ProjectTree theProjectTree;
+    private ProjectTree theProjectTree;
+    private String ProjectName;
+    private String ProjectPath;
+    private String ProjectSDKPath;
 
 
     public CodeEditorFrame() {
@@ -75,9 +78,9 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         MenuBar.add(RunMenu);
 
         // Project Panel
-        JPanel ProjectPanel = new JPanel();
-        this.add(ProjectPanel, WEST);
-        ProjectPanel.setPreferredSize(new Dimension(200, 800));
+//        ProjectPanel = new JPanel();
+//        this.add(ProjectPanel, WEST);
+//        ProjectPanel.setPreferredSize(new Dimension(200, 800));
 
         // Code Editor Panel (show up as a grey background when there is no project opened yet)
 //        JPanel CodeFieldBackground = new JPanel();
@@ -91,9 +94,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 //        add(ProjectPanel);
 
         //
-        theProjectTree = new ProjectTree();
-        this.add(theProjectTree, WEST);
-        theProjectTree.setVisible(false);
+
 
 
          // Statistic Panel
@@ -188,25 +189,45 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     }
 
 
+    public void displayNewProject (String theProjectName, String theProjectPath, String theProjectSDK) {
+
+        ProjectName = theProjectName;
+        ProjectPath = theProjectPath;
+        ProjectSDKPath = theProjectSDK;
+
+        // Create Project Tree
+        theProjectTree = new ProjectTree(this, ProjectName, ProjectPath);
+        this.add(theProjectTree, WEST);
+        theProjectTree.setVisible(false);
+        theProjectTree.setVisible(true);
+
+//        CodeField theCodeField = new CodeField();
+//        this.add(theCodeField, BorderLayout.CENTER);
+
+    }
+
+    public String getProjectName() {
+        return ProjectName;
+    }
+
+    public String getProjectPath() {
+        return ProjectPath;
+    }
+
+    public String getProjectSDKPath() {
+        return ProjectSDKPath;
+    }
+
 
     public void newProject() {
         // create frame using NewProjectFrame class
-        NewProjectFrame theNewProjectFrame = new NewProjectFrame();
+        NewProjectFrame theNewProjectFrame = new NewProjectFrame(this);
         theNewProjectFrame.setVisible(true);
 
-        String ProjectName = theNewProjectFrame.getProjectName();
-        String ProjectPath = theNewProjectFrame.getProjectPath();
-        String ProjectSDK = theNewProjectFrame.getProjectSDKPath();
-
-//        System.out.println(ProjectName + " awesome");
-
-        theProjectTree.setVisible(true);
-//        theProjectTree.setProjectName(ProjectName);
 
 
-
-        CodeField theCodeField = new CodeField();
-        this.add(theCodeField, BorderLayout.CENTER);
+//        CodeField theCodeField = new CodeField();
+//        this.add(theCodeField, BorderLayout.CENTER);
 
 
         // write your code for New Project functionality here

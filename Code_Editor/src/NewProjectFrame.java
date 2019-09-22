@@ -18,12 +18,14 @@ public class NewProjectFrame extends JFrame implements ActionListener {
     private String ProjectName;
     private String ProjectPath;
     private String ProjectSDKPath;
-    private JTextField textField1;
+    private CodeEditorFrame ParentFrame;
 
 
-    public NewProjectFrame() {
+    public NewProjectFrame(CodeEditorFrame theParentFrame) {
         // Create Frame
         super("New Project");
+        ParentFrame = theParentFrame;
+
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.getContentPane().setBackground(Color.WHITE);
@@ -52,7 +54,7 @@ public class NewProjectFrame extends JFrame implements ActionListener {
         InnerPanel1.setAlignmentX(LEFT_ALIGNMENT);
 
         // Project Name Field
-        textField1 = new JTextField(20);
+        JTextField textField1 = new JTextField(20);
         textField1.setAlignmentX(LEFT_ALIGNMENT);
 
         InnerPanel1.add(textField1, BorderLayout.WEST);
@@ -91,7 +93,7 @@ public class NewProjectFrame extends JFrame implements ActionListener {
                 if(option == JFileChooser.APPROVE_OPTION){
                     File file = fileChooser.getSelectedFile();
                     ProjectPath = file.getPath();
-                    System.out.println(ProjectPath);
+//                    System.out.println(ProjectPath);
                     DestinationLabel.setText(ProjectPath);
                 }
             }
@@ -129,7 +131,7 @@ public class NewProjectFrame extends JFrame implements ActionListener {
                 if(option == JFileChooser.APPROVE_OPTION){
                     File file = fileChooser.getSelectedFile();
                     ProjectSDKPath = file.getPath();
-                    System.out.println(ProjectSDKPath);
+//                    System.out.println(ProjectSDKPath);
                     SDKOptionLabel.setText(ProjectSDKPath);
                 }
 
@@ -144,18 +146,33 @@ public class NewProjectFrame extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent actionEvent) {
                 ProjectName = textField1.getText();
 
-                System.out.println(ProjectName);
-                System.out.println(ProjectPath);
-                System.out.println(ProjectSDKPath);
+//                System.out.println(ProjectName);
+//                System.out.println(ProjectPath);
+//                System.out.println(ProjectSDKPath);
 
                 File newProjectFolder = new File(ProjectPath + '/' + ProjectName);
+                File srcFolder = new File(ProjectPath + '/' + ProjectName + '/' + "src");
+                File main = new File(ProjectPath + '/' + ProjectName + '/' + "src" + '/' + "Main.java");
+                PrintWriter pw = null;
 
                 try {
                     if (newProjectFolder.mkdir()) {
-                        System.out.println("Folder is created");
+//                        System.out.println("Folder is created");
+                        srcFolder.mkdir();
+                        main.createNewFile();
+
+                        FileWriter fw = new FileWriter(main, true);
+                        pw = new PrintWriter(fw);
+                        pw.println("// This is the main file.");
+                        pw.close();
+
+                        ProjectPath = ProjectPath + "/" + ProjectName;
+                        ParentFrame.displayNewProject(ProjectName, ProjectPath, ProjectSDKPath);
+
                         setVisible(false);
 
-//                        dispose();
+
+                        dispose();
 
                     } else {
                         JFrame openProjectFrame;
@@ -166,13 +183,15 @@ public class NewProjectFrame extends JFrame implements ActionListener {
                     e.printStackTrace();
                 }
 
+
+
             }
         });
 
     }
 
     public String getProjectName() {
-        ProjectName = textField1.getText();
+//        ProjectName = textField1.getText();
         return ProjectName;
     }
 
