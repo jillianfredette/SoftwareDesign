@@ -273,6 +273,16 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
     }
 
+    public void closeProjectTree(){
+        tabbedPane.removeAll();
+        theCodeEditorFrame.remove(tabbedPane);
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+        root.removeAllChildren();
+        model.reload();
+        model.setRoot(null);
+    }
+
 
 }
 

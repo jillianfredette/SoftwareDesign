@@ -20,6 +20,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     private String ProjectName;
     private String ProjectPath;
     private String ProjectSDKPath;
+    private NewProjectFrame theNewProjectFrame;
 
 
     public CodeEditorFrame() {
@@ -219,7 +220,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     public void newProject() {
         // create frame using NewProjectFrame class
-        NewProjectFrame theNewProjectFrame = new NewProjectFrame(this);
+        theNewProjectFrame = new NewProjectFrame(this);
         theNewProjectFrame.setVisible(true);
 
 
@@ -334,7 +335,10 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 saveProject();
                 //close project
-                CodeField.setText("");
+                theProjectTree.closeProjectTree();
+                theNewProjectFrame.remove(theProjectTree);
+                theNewProjectFrame.dispose();
+
 
                 CloseProjectFrame.dispose();
             }
@@ -345,7 +349,10 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close project
-                CodeField.setText("");
+                theProjectTree.closeProjectTree();
+                theNewProjectFrame.remove(theProjectTree);
+                theNewProjectFrame.dispose();
+
 
                 CloseProjectFrame.dispose();
             }
