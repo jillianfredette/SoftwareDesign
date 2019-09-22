@@ -110,6 +110,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
             JMenuItem delete = new JMenuItem("Delete");
             JMenuItem add = new JMenuItem("Add File");
             JMenuItem open = new JMenuItem("Open File");
+            JMenuItem close = new JMenuItem("Close File");
             JMenuItem addFolder = new JMenuItem("Add Folder");
             JTextField field1 = new JTextField("File Name");
             delete.addActionListener(new ActionListener() {
@@ -265,6 +266,68 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                 }
             });
             add(open);
+            add(new JSeparator());
+
+            close.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
+
+                    JFrame CloseProjectFrame = new JFrame("Close File");
+                    CloseProjectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    CloseProjectFrame.setSize(600,150);
+                    CloseProjectFrame.setLocation(550, 300);
+
+                    JPanel main = new JPanel();
+                    CloseProjectFrame.add(main);
+
+                    main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
+                    JPanel message = new JPanel(new BorderLayout());
+
+                    main.add(message);
+
+                    JLabel confirmClose = new JLabel("Are you sure you want to close this file? Don't forget to save before closing using 'Ctrl + S'.", SwingConstants.CENTER);
+                    message.add(confirmClose, BorderLayout.CENTER);
+
+                    JPanel buttons = new JPanel(new FlowLayout());
+                    main.add(buttons);
+
+                    JButton buttonclose = new JButton("Close");
+                    JButton buttoncancel = new JButton("Cancel");
+
+                    buttons.add(buttonclose);
+                    buttons.add(buttoncancel);
+
+
+                    //if yes, close project
+                    buttonclose.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            //close file
+                            if(selectedNode.isLeaf()){
+
+                                tabbedPane.remove(tabbedPane.getSelectedComponent());
+                            }
+                            CloseProjectFrame.dispose();
+                        }
+                    });
+
+                    //if cancel, end close operation
+                    buttoncancel.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            CloseProjectFrame.dispose();
+                        }
+                    });
+
+
+                    CloseProjectFrame.setVisible(true);
+                }
+            });
+            add(close);
+
+
         }
     }
 
