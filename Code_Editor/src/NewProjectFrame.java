@@ -163,10 +163,9 @@ public class NewProjectFrame extends JFrame implements ActionListener {
 
                         FileWriter fw = new FileWriter(main, true);
                         pw = new PrintWriter(fw);
-                        pw.println("// This is the main file.");
+                        pw.println("// This is the Main class.");
                         pw.close();
 
-                        ProjectPath = ProjectPath + "/" + ProjectName;
                         ParentFrame.displayNewProject(ProjectName, ProjectPath, ProjectSDKPath);
 
                         setVisible(false);

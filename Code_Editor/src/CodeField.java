@@ -11,13 +11,25 @@ import java.awt.event.KeyListener;
 import java.util.concurrent.TimeUnit;
 
 
-public class CodeField extends JEditorPane implements ActionListener {
+public class CodeField extends JEditorPane implements ActionListener, KeyListener {
 
-    public CodeField() {
+    private String ProjectName;
+    private String ProjectPath;
+    private String ProjectSDKPath;
+    private String FileName;
+
+    public CodeField(String theProjectName, String theProjectPath, String theFileName) {
         super();
+        ProjectName = theProjectName;
+        ProjectPath = theProjectPath;
+        FileName = theFileName;
+
         this.setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         this.setPreferredSize(new Dimension(700, 1000));
+        this.addKeyListener(this);
+
+
 
 
 //        JScrollPane scroll = new JScrollPane(this);
@@ -30,5 +42,31 @@ public class CodeField extends JEditorPane implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         String buttonString = e.getActionCommand();
+    }
+
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    // Save Code by pressing Ctrl + S
+    public void keyPressed(KeyEvent e){
+        if ((e.getKeyCode() == KeyEvent.VK_S) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+//        if ((e.getKeyCode() == KeyEvent.VK_F4)) {
+            try {
+                String filePath = ProjectPath + "/" + ProjectName + "/src/" + FileName;
+                FileWriter out = new FileWriter(filePath);
+                System.out.println(filePath);
+                out.write(this.getText());
+                out.close();
+            } catch (Exception f) {
+                f.printStackTrace();
+            }
+
+        }
+
+    }
+
+    public void keyTyped(KeyEvent e) {
+
     }
 }

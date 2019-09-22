@@ -61,8 +61,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         SaveProject.addActionListener(this);
         JMenuItem EditProject = new JMenuItem("Edit Project");
         FileMenu.add(EditProject);
-        JMenuItem RemoveFile = new JMenuItem("Remove File");
-        FileMenu.add(RemoveFile);
         JMenuItem CloseProject = new JMenuItem("Close Project");
         FileMenu.add(CloseProject);
         CloseProject.addActionListener(this);
