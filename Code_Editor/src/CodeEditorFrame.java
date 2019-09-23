@@ -81,18 +81,89 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 //        this.add(ProjectPanel, WEST);
 //        ProjectPanel.setPreferredSize(new Dimension(200, 800));
 
-        // Code Editor Panel (show up as a grey background when there is no project opened yet)
-//        JPanel CodeFieldBackground = new JPanel();
-//        this.add(CodeFieldBackground, BorderLayout.CENTER);
-//        CodeFieldBackground.setPreferredSize(new Dimension(700, 800));
-//        CodeFieldBackground.setBackground(Color.LIGHT_GRAY);
-////
-//        JLabel lab1 = new JLabel("User Name", JLabel.LEFT);
-//        ProjectPanel.setLayout(new FlowLayout());
-//        ProjectPanel.add(lab1 = new JLabel("add JLabel"));
-//        add(ProjectPanel);
+           // Code Field
 
-        //
+
+        JTextPane CodeField = new JTextPane();
+        StyledDocument document = CodeField.getStyledDocument();
+        StyleContext context= new StyleContext();
+        Style style = context.addStyle("test", null);
+        StyleConstants.setForeground(style,Color.black);
+
+        document.addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+               // DocumentEvent.EventType type = documentEvent.getType();
+
+
+                String length = CodeField.getText();
+                int stringlength =length.length() -1;
+
+
+                if(CodeField.getText().charAt(stringlength) == '+' ||CodeField.getText().charAt(stringlength) == '-' ||CodeField.getText().charAt(stringlength) == '*' ||CodeField.getText().charAt(stringlength) == '/'||(CodeField.getText().charAt(stringlength) == '|'&& CodeField.getText().charAt(stringlength-1) == '|' )||(CodeField.getText().charAt(stringlength) == '&'&& CodeField.getText().charAt(stringlength-1) == '&' )){
+
+                    System.out.println(CodeField.getText().charAt(stringlength));
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if((CodeField.getText().charAt(stringlength) == '|'&& CodeField.getText().charAt(stringlength-1) == '|' )){
+                                StyleConstants.setForeground(style,Color.red);
+                                //CodeField.setForeground(Color.red);
+
+                                document.setCharacterAttributes(stringlength-1,stringlength,style,false);
+                                //CodeField.setForeground(Color.black);
+                                StyleConstants.setForeground(style,Color.red); // changes it to red
+                                CodeField.setForeground(Color.black);
+                            }
+                            if((CodeField.getText().charAt(stringlength) == '&'&& CodeField.getText().charAt(stringlength-1) == '&' )){
+                                StyleConstants.setForeground(style,Color.red);
+                                //CodeField.setForeground(Color.red);
+
+                                document.setCharacterAttributes(stringlength-1,stringlength,style,false);
+                                //CodeField.setForeground(Color.black);
+                                StyleConstants.setForeground(style,Color.red); // changes it to red
+                                CodeField.setForeground(Color.black);
+                            }
+                            StyleConstants.setForeground(style,Color.red);
+                                //CodeField.setForeground(Color.red);
+
+                               document.setCharacterAttributes(stringlength,stringlength,style,false);
+                                //CodeField.setForeground(Color.black);
+                            StyleConstants.setForeground(style,Color.red); // changes it to red
+                            CodeField.setForeground(Color.black);
+                            StyleConstants.setForeground(style,Color.black);
+
+                        }
+                    });
+
+
+                }
+
+
+            }
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+
+            }
+        });
+        try {
+
+            document.insertString(0," ",style);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        this.add(CodeField, BorderLayout.CENTER);
+//        CodeField.setBackground(Color.WHITE);
+//        CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
+        CodeField.setPreferredSize(new Dimension(700, 800));
+
+
 
 
 
