@@ -30,18 +30,23 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         ProjectName = theProjectName;
         ProjectPath = theProjectPath;
         theCodeEditorFrame = theMainFrame;
-        File fileRoot = new File(ProjectPath);
+
+        // Root of the tree of the Project's path
+        // File fileRoot = new File(ProjectPath);
+        // DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
 
         // Creates the nodes from the directory's path
-        top = new DefaultMutableTreeNode(new FileNode(fileRoot));
+        top = new DefaultMutableTreeNode(ProjectName);
+        createNodes(top);
+
         treeModel = new DefaultTreeModel(top);
 
         // Creates a tree that allows one selection at a time.
         tree = new JTree(treeModel);
 
         // Creates the children nodes, doesn't matter if its a file or a folder
-        ChildNode ccn = new ChildNode(fileRoot, top);
-        new Thread(ccn).start();
+        // ChildNode ccn = new ChildNode(fileRoot, top);
+        // new Thread(ccn).start();
 
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
@@ -81,6 +86,20 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         } else {
 
         }
+    }
+
+    // Creates Nodes for Tree
+    private void createNodes(DefaultMutableTreeNode top) {
+        DefaultMutableTreeNode folder = null;
+        DefaultMutableTreeNode file = null;
+
+        folder = new DefaultMutableTreeNode("src");
+        top.add(folder);
+
+        //original Tutorial
+        file = new DefaultMutableTreeNode("Main.java");
+        folder.add(file);
+
     }
 
     // Popup Specifics
