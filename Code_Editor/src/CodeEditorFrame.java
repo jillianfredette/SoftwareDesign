@@ -95,7 +95,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             @Override
             public void insertUpdate(DocumentEvent documentEvent) {
                // DocumentEvent.EventType type = documentEvent.getType();
-
+                StyleConstants.setForeground(style,Color.black);
 
                 String length = CodeField.getText();
                 int stringlength =length.length() -1;
