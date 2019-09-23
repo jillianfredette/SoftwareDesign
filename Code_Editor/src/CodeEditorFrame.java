@@ -1,6 +1,9 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.metal.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.io.*;
 import java.awt.event.*;
@@ -77,13 +80,11 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         MenuBar.add(RunMenu);
 
         // Project Panel
-//        ProjectPanel = new JPanel();
-//        this.add(ProjectPanel, WEST);
-//        ProjectPanel.setPreferredSize(new Dimension(200, 800));
+        //ProjectPanel = new JPanel();
+        //this.add(ProjectPanel, WEST);
+        //ProjectPanel.setPreferredSize(new Dimension(200, 800));
 
-           // Code Field
-
-
+        // Code Field
         JTextPane CodeField = new JTextPane();
         StyledDocument document = CodeField.getStyledDocument();
         StyleContext context= new StyleContext();
@@ -100,7 +101,10 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 int stringlength =length.length() -1;
 
 
-                if(CodeField.getText().charAt(stringlength) == '+' ||CodeField.getText().charAt(stringlength) == '-' ||CodeField.getText().charAt(stringlength) == '*' ||CodeField.getText().charAt(stringlength) == '/'||(CodeField.getText().charAt(stringlength) == '|'&& CodeField.getText().charAt(stringlength-1) == '|' )||(CodeField.getText().charAt(stringlength) == '&'&& CodeField.getText().charAt(stringlength-1) == '&' )){
+                if(CodeField.getText().charAt(stringlength) == '+' ||CodeField.getText().charAt(stringlength) == '-' ||
+                        CodeField.getText().charAt(stringlength) == '*' ||CodeField.getText().charAt(stringlength) == '/'||
+                        (CodeField.getText().charAt(stringlength) == '|'&& CodeField.getText().charAt(stringlength-1) == '|' )||
+                        (CodeField.getText().charAt(stringlength) == '&'&& CodeField.getText().charAt(stringlength-1) == '&' )){
 
                     System.out.println(CodeField.getText().charAt(stringlength));
                     SwingUtilities.invokeLater(new Runnable() {
@@ -126,10 +130,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                                 CodeField.setForeground(Color.black);
                             }
                             StyleConstants.setForeground(style,Color.red);
-                                //CodeField.setForeground(Color.red);
-
-                               document.setCharacterAttributes(stringlength,stringlength,style,false);
-                                //CodeField.setForeground(Color.black);
+                            document.setCharacterAttributes(stringlength,stringlength,style,false);
                             StyleConstants.setForeground(style,Color.red); // changes it to red
                             CodeField.setForeground(Color.black);
                             StyleConstants.setForeground(style,Color.black);
@@ -159,8 +160,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             e.printStackTrace();
         }
         this.add(CodeField, BorderLayout.CENTER);
-//        CodeField.setBackground(Color.WHITE);
-//        CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
+        //CodeField.setBackground(Color.WHITE);
+        //CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         CodeField.setPreferredSize(new Dimension(700, 800));
 
 
@@ -185,40 +186,31 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
 
-        //========================================================================================================================================
+/*========================================================================================================================================
+       RIGHT CLICK DELETE/EDIT FUNCTIONALITY
+        WORKS FOR COMPILER AND STATS SECTION BUT NOT THE FILE BROWSERR SECTION
+        JPopupMenu rMenu = new JPopupMenu();
+        JMenuItem delete = new JMenuItem("Delete");
 
+        addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(e.getButton() == MouseEvent.BUTTON3){
+                rMenu.show(e.getComponent(), e.getX(), e.getY());
+                System.out.println("Right Click, Activated");
+                }
+            }
+        });
 
-
-        // RIGHT CLICK DELETE/EDIT FUNCTIONALITY
-        // WORKS FOR COMPILER AND STATS SECTION BUT NOT THE FILE BROWSERR SECTION
-//        JPopupMenu rMenu = new JPopupMenu();
-//        JMenuItem delete = new JMenuItem("Delete");
-//
-//        addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                if(e.getButton() == MouseEvent.BUTTON3){
-//                    rMenu.show(e.getComponent(), e.getX(), e.getY());
-//                    System.out.println("Right Click, Activated");
-//                }
-//            }
-//        });
-//
-//        delete.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//                System.out.println("This item has been deleted!");
-//            }
-//        });
-//        rMenu.add(delete);
-
-
-
-//========================================================================================================================================
+        delete.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    System.out.println("This item has been deleted!");
+                }
+        });
+        rMenu.add(delete);
+========================================================================================================================================*/
     }
-
-
-
 
     public void actionPerformed(ActionEvent e) {
         String buttonString = e.getActionCommand();
@@ -258,7 +250,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         rMenu.add(delete);
     }
 
-
     public void displayNewProject (String theProjectName, String theProjectPath, String theProjectSDK) {
 
         ProjectName = theProjectName;
@@ -271,8 +262,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         theProjectTree.setVisible(false);
         theProjectTree.setVisible(true);
 
-//        CodeField theCodeField = new CodeField();
-//        this.add(theCodeField, BorderLayout.CENTER);
+        //CodeField theCodeField = new CodeField();
+        //this.add(theCodeField, BorderLayout.CENTER);
 
     }
 
@@ -287,7 +278,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     public String getProjectSDKPath() {
         return ProjectSDKPath;
     }
-
 
     public void newProject() {
         // create frame using NewProjectFrame class
@@ -370,9 +360,9 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     }
 
     public void closeProject() {
-        // write your code for Close Project functionality here
+        // Write your code for Close Project functionality here
 
-        //open new frame to confirm closing of project
+        // Open new frame to confirm closing of project
         JFrame CloseProjectFrame = new JFrame("Close Project");
         CloseProjectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         CloseProjectFrame.setSize(300,150);
@@ -400,7 +390,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         buttons.add(buttonclose);
         buttons.add(buttoncancel);
 
-        //if save & close, save the project and then close it
+        // If save & close, save the project and then close it
         buttonsc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -415,7 +405,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             }
         });
 
-        //if yes, close project
+        // If yes, close project
         buttonclose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -429,7 +419,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             }
         });
 
-        //if cancel, end close operation
+        // If cancel, end close operation
         buttoncancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -437,13 +427,9 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             }
         });
 
-
         CloseProjectFrame.setVisible(true);
 
     }
-
-
-
 
 }
 
