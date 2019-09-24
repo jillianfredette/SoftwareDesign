@@ -84,89 +84,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         //this.add(ProjectPanel, WEST);
         //ProjectPanel.setPreferredSize(new Dimension(200, 800));
 
-        // Code Field
-        JTextPane CodeField = new JTextPane();
-        StyledDocument document = CodeField.getStyledDocument();
-        StyleContext context= new StyleContext();
-        Style style = context.addStyle("test", null);
-        StyleConstants.setForeground(style,Color.black);
-
-        document.addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent documentEvent) {
-               // DocumentEvent.EventType type = documentEvent.getType();
-                StyleConstants.setForeground(style,Color.black);
-
-                String length = CodeField.getText();
-                int stringlength =length.length() -1;
-
-
-                if(CodeField.getText().charAt(stringlength) == '+' ||CodeField.getText().charAt(stringlength) == '-' ||
-                        CodeField.getText().charAt(stringlength) == '*' ||CodeField.getText().charAt(stringlength) == '/'||
-                        (CodeField.getText().charAt(stringlength) == '|'&& CodeField.getText().charAt(stringlength-1) == '|' )||
-                        (CodeField.getText().charAt(stringlength) == '&'&& CodeField.getText().charAt(stringlength-1) == '&' )){
-
-                    System.out.println(CodeField.getText().charAt(stringlength));
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            if((CodeField.getText().charAt(stringlength) == '|'&& CodeField.getText().charAt(stringlength-1) == '|' )){
-                                StyleConstants.setForeground(style,Color.red);
-                                //CodeField.setForeground(Color.red);
-
-                                document.setCharacterAttributes(stringlength-1,stringlength,style,false);
-                                //CodeField.setForeground(Color.black);
-                                StyleConstants.setForeground(style,Color.red); // changes it to red
-                                CodeField.setForeground(Color.black);
-                            }
-                            if((CodeField.getText().charAt(stringlength) == '&'&& CodeField.getText().charAt(stringlength-1) == '&' )){
-                                StyleConstants.setForeground(style,Color.red);
-                                //CodeField.setForeground(Color.red);
-
-                                document.setCharacterAttributes(stringlength-1,stringlength,style,false);
-                                //CodeField.setForeground(Color.black);
-                                StyleConstants.setForeground(style,Color.red); // changes it to red
-                                CodeField.setForeground(Color.black);
-                            }
-                            StyleConstants.setForeground(style,Color.red);
-                            document.setCharacterAttributes(stringlength,stringlength,style,false);
-                            StyleConstants.setForeground(style,Color.red); // changes it to red
-                            CodeField.setForeground(Color.black);
-                            StyleConstants.setForeground(style,Color.black);
-
-                        }
-                    });
-
-
-                }
-
-
-            }
-            @Override
-            public void removeUpdate(DocumentEvent documentEvent) {
-
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent documentEvent) {
-
-            }
-        });
-        try {
-
-            document.insertString(0," ",style);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-        this.add(CodeField, BorderLayout.CENTER);
-        //CodeField.setBackground(Color.WHITE);
-        //CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-        CodeField.setPreferredSize(new Dimension(700, 800));
-
-
-
-
 
          // Statistic Panel
         JPanel StatPanel = new JPanel();
@@ -187,8 +104,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
 /*========================================================================================================================================
-       RIGHT CLICK DELETE/EDIT FUNCTIONALITY
-        WORKS FOR COMPILER AND STATS SECTION BUT NOT THE FILE BROWSERR SECTION
+        RIGHT CLICK DELETE/EDIT FUNCTIONALITY
+        WORKS FOR COMPILER AND STATS SECTION BUT NOT THE FILE BROWSER SECTION
         JPopupMenu rMenu = new JPopupMenu();
         JMenuItem delete = new JMenuItem("Delete");
 
@@ -218,7 +135,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         if (buttonString.equals("New Project")) {
             newProject();
         } else if (buttonString.equals("Open Project")) {
-            this.openProject();
+            openProject();
 
         } else if (buttonString.equals("Save Project")) {
             saveProject();
@@ -295,7 +212,9 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     }
 
+
     public void openProject() {
+        /* TODO:  Not working properly
         // create frame
         JFrame openProjectFrame;
         openProjectFrame = new JFrame("Open Project");
@@ -311,7 +230,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         File theFile = theFileChooser.getSelectedFile();
 
         // Passes the path to a String using the getAbsolutePath function
-        String fileName = theFile.getAbsolutePath();
+        //String fileName = theFile.getAbsolutePath();
 
         // Opens the file the user selects if the file is acceptable
         if (r == JFileChooser.APPROVE_OPTION) {
@@ -333,7 +252,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         // If the user cancelled the operation
         else
             JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
-
+*/
     }
 
     public void saveProject() {

@@ -76,7 +76,7 @@ public class NewProjectFrame extends JFrame implements ActionListener {
         InnerPanel.add(DestinationLabel);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 40)));
 
-        // Sec action for "Choose Project Location" button
+        // Section for "Choose Project Location" button
         LocationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -114,7 +114,7 @@ public class NewProjectFrame extends JFrame implements ActionListener {
         InnerPanel.add(SDKOptionLabel);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 200)));
 
-        // Sec action for "Choose Project Location" button
+        // Section for "Choose Project Location" button
         SDKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
