@@ -24,16 +24,31 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
     private CodeEditorFrame theCodeEditorFrame;
     private JTabbedPane tabbedPane = null;
 
-    public ProjectTree(CodeEditorFrame theMainFrame, String theProjectName, String theProjectPath) {
+    public ProjectTree() {
         super(new GridLayout(1, 0));
 
+    }
+
+    // Required by TreeSelectionListener interface.
+
+    public void valueChanged(TreeSelectionEvent e) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+                tree.getLastSelectedPathComponent();
+
+        if (node == null) return;
+
+        Object nodeInfo = node.getUserObject();
+        if (node.isLeaf()) {
+            System.out.println("Node is a leaf");
+        } else {
+
+        }
+    }
+
+    public void createProjectTree(CodeEditorFrame theMainFrame, String theProjectName, String theProjectPath){
         ProjectName = theProjectName;
         ProjectPath = theProjectPath;
         theCodeEditorFrame = theMainFrame;
-
-        // Root of the tree of the Project's path
-        // File fileRoot = new File(ProjectPath);
-        // DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
 
         // Creates the nodes from the directory's path
         top = new DefaultMutableTreeNode(ProjectName);
@@ -43,11 +58,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
         // Creates a tree that allows one selection at a time.
         tree = new JTree(treeModel);
-
-        // Creates the children nodes, doesn't matter if its a file or a folder
-        // ChildNode ccn = new ChildNode(fileRoot, top);
-        // new Thread(ccn).start();
-
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         //Listen for when the selection changes.
@@ -72,20 +82,43 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         });
     }
 
-    // Required by TreeSelectionListener interface.
+    public void openProjectTree(String theProjectPath){
+        ProjectPath = theProjectPath;
 
-    public void valueChanged(TreeSelectionEvent e) {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                tree.getLastSelectedPathComponent();
+        // Root of the tree of the Project's path
+        File fileRoot = new File(ProjectPath);
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
 
-        if (node == null) return;
+        // Creates the children nodes, doesn't matter if its a file or a folder
+        ChildNode ccn = new ChildNode(fileRoot, root);
+        new Thread(ccn).start();
 
-        Object nodeInfo = node.getUserObject();
-        if (node.isLeaf()) {
-            System.out.println("Node is a leaf");
-        } else {
+        treeModel = new DefaultTreeModel(root);
 
-        }
+        // Creates a tree that allows one selection at a time.
+        tree = new JTree(treeModel);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+
+        //Listen for when the selection changes.
+        tree.addTreeSelectionListener(this);
+
+        //Create the scroll pane and add the tree to it.
+        JScrollPane treeView = new JScrollPane(tree);
+
+        //Add the tree view to this panel.
+        add(treeView);
+
+
+        // Show Popup on Tree
+        final TreePopup treePopup = new TreePopup(tree);
+        tree.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                if(e.getButton() == MouseEvent.BUTTON3) {
+                    treePopup.show(e.getComponent(), e.getX(), e.getY());
+                    System.out.println(e.getComponent());
+                }
+            }
+        });
     }
 
     // Creates Nodes for Tree
@@ -197,7 +230,9 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                         if (tabbedPane == null) {
                             tabbedPane = new JTabbedPane();
 //                        tabbedPane.setUI(new SpacedTabbedPaneUI());
-                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+                            CodeField theCodeField = new CodeField();
+                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+                            theCodeField.addStyle();
 //                        theCodeField.setEditable(false);
 
                             if (newFile != null) {
@@ -216,14 +251,15 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                             }
 
                             tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
-
+                            theCodeField.addStyle();
                             theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
                             tabbedPane.setVisible(false);
                             tabbedPane.setVisible(true);
 
 
                         } else {
-                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+                            CodeField theCodeField = new CodeField();
+                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                        theCodeField.setEditable(false);
 
                             if (newFile != null) {
@@ -242,7 +278,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                             }
 
                             tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
-
                             theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
                             tabbedPane.setVisible(false);
                             tabbedPane.setVisible(true);

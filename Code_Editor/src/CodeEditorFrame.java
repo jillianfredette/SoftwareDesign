@@ -9,16 +9,13 @@ import java.io.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.concurrent.TimeUnit;
 
 import static java.awt.BorderLayout.WEST;
 
 
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
-    JTextField CodeField;
+    CodeField theCodeField;
     private ProjectTree theProjectTree;
     private String ProjectName;
     private String ProjectPath;
@@ -57,14 +54,18 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         JMenuItem NewProject = new JMenuItem("New Project");
         FileMenu.add(NewProject);
         NewProject.addActionListener(this);
+
         JMenuItem OpenProject = new JMenuItem("Open Project");
         FileMenu.add(OpenProject);
         OpenProject.addActionListener(this);
+
         JMenuItem SaveProject = new JMenuItem("Save Project");
         FileMenu.add(SaveProject);
         SaveProject.addActionListener(this);
+
         JMenuItem EditProject = new JMenuItem("Edit Project");
         FileMenu.add(EditProject);
+
         JMenuItem CloseProject = new JMenuItem("Close Project");
         FileMenu.add(CloseProject);
         CloseProject.addActionListener(this);
@@ -78,11 +79,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         MenuBar.add(FileMenu);
         MenuBar.add(RunMenu);
-
-        // Project Panel
-        //ProjectPanel = new JPanel();
-        //this.add(ProjectPanel, WEST);
-        //ProjectPanel.setPreferredSize(new Dimension(200, 800));
 
 
          // Statistic Panel
@@ -129,44 +125,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 ========================================================================================================================================*/
     }
 
-    public void actionPerformed(ActionEvent e) {
-        String buttonString = e.getActionCommand();
-
-        if (buttonString.equals("New Project")) {
-            newProject();
-        } else if (buttonString.equals("Open Project")) {
-            openProject();
-
-        } else if (buttonString.equals("Save Project")) {
-            saveProject();
-        } else if (buttonString.equals("Close Project")) {
-            closeProject();
-        }
-    }
-
-    public void rightClickPerformed(){
-        JPopupMenu rMenu = new JPopupMenu();
-        JMenuItem delete = new JMenuItem("Delete");
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(e.getButton() == MouseEvent.BUTTON3){
-                    rMenu.show(e.getComponent(), e.getX(), e.getY());
-                    System.out.println("Right Click, Activated");
-                }
-            }
-        });
-
-        delete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("This item has been deleted!");
-            }
-        });
-        rMenu.add(delete);
-    }
-
     public void displayNewProject (String theProjectName, String theProjectPath, String theProjectSDK) {
 
         ProjectName = theProjectName;
@@ -174,26 +132,16 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         ProjectSDKPath = theProjectSDK;
 
         // Create Project Tree
-        theProjectTree = new ProjectTree(this, ProjectName, ProjectPath);
+        theProjectTree = new ProjectTree();
+        theProjectTree.createProjectTree(this, ProjectName, ProjectPath);
         this.add(theProjectTree, WEST);
         theProjectTree.setVisible(false);
         theProjectTree.setVisible(true);
-
-        //CodeField theCodeField = new CodeField();
-        //this.add(theCodeField, BorderLayout.CENTER);
-
-    }
-
-    public String getProjectName() {
-        return ProjectName;
-    }
-
-    public String getProjectPath() {
-        return ProjectPath;
-    }
-
-    public String getProjectSDKPath() {
-        return ProjectSDKPath;
+/*
+        CodeField theCodeField = new CodeField();
+        theCodeField.addStyle();
+        this.add(theCodeField, BorderLayout.CENTER);
+*/
     }
 
     public void newProject() {
@@ -212,47 +160,48 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     }
 
-
     public void openProject() {
-        /* TODO:  Not working properly
         // create frame
-        JFrame openProjectFrame;
-        openProjectFrame = new JFrame("Open Project");
+        JFrame openProjectFrame = new JFrame("Open Project");
 
         // Create the File Chooser
-        JFileChooser theFileChooser = new JFileChooser("f:");
-        theFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Java", "java"));
+        JFileChooser theFileChooser = new JFileChooser("f");
+
+        // Opens only Directories
+        theFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         // Invoke the showsOpenDialog function to show the save dialog
-        int r = theFileChooser.showOpenDialog(this);
-
-        // Gets the file selected using getSelectedFile function
-        File theFile = theFileChooser.getSelectedFile();
-
-        // Passes the path to a String using the getAbsolutePath function
-        //String fileName = theFile.getAbsolutePath();
+        int option = theFileChooser.showOpenDialog(this);
 
         // Opens the file the user selects if the file is acceptable
-        if (r == JFileChooser.APPROVE_OPTION) {
-            try {
-                // Reads the filename and opens the file
-                FileReader reader = new FileReader(fileName);
+        if (option == JFileChooser.APPROVE_OPTION) {
+                // Gets the selected directory
+                File theDirectory = theFileChooser.getSelectedFile();
 
+                ProjectPath = theDirectory.getPath();
+
+                // Reads the filename and opens the file
+                //FileReader reader = new FileReader(fileName);
+
+                // Create Project Tree
+                theProjectTree = new ProjectTree();
+                theProjectTree.openProjectTree(ProjectPath);
+                this.add(theProjectTree, WEST);
+                theProjectTree.setVisible(false);
+                theProjectTree.setVisible(true);
+                /*
                 // Displays the file
                 BufferedReader scan = new BufferedReader(reader);
-                CodeField.read(scan,null);
+                theCodeField.read(scan,null);
                 scan.close();
-                CodeField.requestFocus();
-
-            }
-            catch(Exception e) {
-                JOptionPane.showMessageDialog(null,e);
-            }
+                theCodeField.requestFocus();
+                */
+                //theCodeField.addStyle();
         }
         // If the user cancelled the operation
         else
             JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
-*/
+
     }
 
     public void saveProject() {
@@ -348,6 +297,56 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         CloseProjectFrame.setVisible(true);
 
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String buttonString = e.getActionCommand();
+
+        if (buttonString.equals("New Project")) {
+            newProject();
+        } else if (buttonString.equals("Open Project")) {
+            openProject();
+
+        } else if (buttonString.equals("Save Project")) {
+            saveProject();
+        } else if (buttonString.equals("Close Project")) {
+            closeProject();
+        }
+    }
+
+    public void rightClickPerformed(){
+        JPopupMenu rMenu = new JPopupMenu();
+        JMenuItem delete = new JMenuItem("Delete");
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getButton() == MouseEvent.BUTTON3){
+                    rMenu.show(e.getComponent(), e.getX(), e.getY());
+                    System.out.println("Right Click, Activated");
+                }
+            }
+        });
+
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("This item has been deleted!");
+            }
+        });
+        rMenu.add(delete);
+    }
+
+    public String getProjectName() {
+        return ProjectName;
+    }
+
+    public String getProjectPath() {
+        return ProjectPath;
+    }
+
+    public String getProjectSDKPath() {
+        return ProjectSDKPath;
     }
 
 }

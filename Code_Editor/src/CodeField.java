@@ -18,18 +18,25 @@ public class CodeField extends JEditorPane implements ActionListener, KeyListene
     private JTextPane CodeField;
     private String ProjectName;
     private String ProjectPath;
-    private String ProjectSDKPath;
     private String FileName;
 
-    public CodeField(String theProjectName, String theProjectPath, String theFileName) {
+    public CodeField() {
         super();
         CodeField = new JTextPane();
-        ProjectName = theProjectName;
-        ProjectPath = theProjectPath;
-        FileName = theFileName;
 
+        this.setBackground(Color.WHITE);
+        this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
+        this.setPreferredSize(new Dimension(700, 1000));
+        this.addKeyListener(this);
+        this.addStyle();
+        //JScrollPane scroll = new JScrollPane(this);
+        //scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        //this.add(scroll, BorderLayout.CENTER);
+
+    }
+
+    public void addStyle(){
         // Code Field
-
         StyledDocument document = CodeField.getStyledDocument();
         StyleContext context= new StyleContext();
         Style style = context.addStyle("test", null);
@@ -143,24 +150,19 @@ public class CodeField extends JEditorPane implements ActionListener, KeyListene
         this.add(CodeField, BorderLayout.CENTER);
         //CodeField.setBackground(Color.WHITE);
         //CodeField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-
-        this.setBackground(Color.WHITE);
-        this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-        this.setPreferredSize(new Dimension(700, 1000));
-        this.addKeyListener(this);
-        //JScrollPane scroll = new JScrollPane(this);
-        //scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        //this.add(scroll, BorderLayout.CENTER);
-
     }
-
-
     public void actionPerformed(ActionEvent e) {
         String buttonString = e.getActionCommand();
     }
 
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public void setProjectInfo(String theProjectName, String theProjectPath, String theFileName){
+        ProjectName = theProjectName;
+        ProjectPath = theProjectPath;
+        FileName = theFileName;
     }
 
     // Save Code by pressing Ctrl + S
