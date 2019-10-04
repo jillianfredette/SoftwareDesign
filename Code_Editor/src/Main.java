@@ -10,10 +10,12 @@ public class Main {
     private String ProjectSDKPath;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         JFrame.setDefaultLookAndFeelDecorated(true);
         CodeEditorFrame mainFrame = new CodeEditorFrame();
         mainFrame.setVisible(true);
+
+//        System.out.println(System.getProperty("user.dir"));
 
 //        String ProjectName = mainFrame.getProjectName();
 //        String ProjectPath = mainFrame.getProjectPath();

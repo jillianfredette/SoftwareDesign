@@ -74,8 +74,11 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         JMenu RunMenu = new JMenu("Run");
         JMenuItem CompileProject = new JMenuItem("Compile Project");
         RunMenu.add(CompileProject);
+        CompileProject.addActionListener(this);
+
         JMenuItem ExecuteProject = new JMenuItem("Execute Project");
         RunMenu.add(ExecuteProject);
+        ExecuteProject.addActionListener(this);
 
         MenuBar.add(FileMenu);
         MenuBar.add(RunMenu);
@@ -227,6 +230,23 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     }
 
+    public void compileProject() {
+//        System.out.println(System.getProperty("user.dir"));
+
+        com.sun.tools.javac.Main javac = new com.sun.tools.javac.Main();
+        File outputFolder = new File(ProjectPath + '/' + ProjectName + '/' + "out");
+        outputFolder.mkdir();
+        String outputPath = ProjectPath + '/' + ProjectName + '/' + "out";
+        String fileToCompile = ProjectPath + '/' + ProjectName + "/src/Main.java";
+        String[] args = new String[] {
+                "-d", outputPath,
+                fileToCompile
+        };
+
+        int status = javac.compile(args);
+        System.out.println(status);
+    }
+
     public void closeProject() {
         // Write your code for Close Project functionality here
 
@@ -311,6 +331,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             saveProject();
         } else if (buttonString.equals("Close Project")) {
             closeProject();
+        } else if (buttonString.equals("Compile Project")) {
+            compileProject();
         }
     }
 
