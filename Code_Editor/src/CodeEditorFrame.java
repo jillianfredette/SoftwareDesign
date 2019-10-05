@@ -13,7 +13,9 @@ import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.lang.StringBuilder;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.nio.file.Path;
 
 import static java.awt.BorderLayout.WEST;
 
@@ -186,14 +188,18 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 // Gets the selected directory
                 File theDirectory = theFileChooser.getSelectedFile();
 
-                ProjectPath = theDirectory.getPath();
+                String wholeProjectPath = theDirectory.getPath();
+                Path path = Paths.get(wholeProjectPath);
+                ProjectName = path.getFileName().toString();
+                ProjectPath = theDirectory.getParent();
+                System.out.println("Here " + ProjectPath);
 
                 // Reads the filename and opens the file
                 //FileReader reader = new FileReader(fileName);
 
                 // Create Project Tree
                 theProjectTree = new ProjectTree();
-                theProjectTree.openProjectTree(ProjectPath);
+                theProjectTree.openProjectTree(this, ProjectPath, ProjectName);
                 this.add(theProjectTree, WEST);
                 theProjectTree.setVisible(false);
                 theProjectTree.setVisible(true);

@@ -82,11 +82,14 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         });
     }
 
-    public void openProjectTree(String theProjectPath){
+    public void openProjectTree(CodeEditorFrame theMainFrame, String theProjectPath, String theProjectName){
         ProjectPath = theProjectPath;
+        ProjectName = theProjectName;
+        theCodeEditorFrame = theMainFrame;
 
         // Root of the tree of the Project's path
-        File fileRoot = new File(ProjectPath);
+        String wholeProjectPath = ProjectPath + '/' + ProjectName;
+        File fileRoot = new File(wholeProjectPath);
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
 
         // Creates the children nodes, doesn't matter if its a file or a folder
@@ -242,6 +245,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
                     if(selectedNode.isLeaf()) {
                         String diskPath = ProjectPath + "/" + ProjectName + "/src/" + selectedNode.getUserObject().toString();
+                        String fileName = selectedNode.getUserObject().toString();
                         System.out.println(diskPath);
 
                         File newFile = new File(diskPath);
@@ -249,7 +253,9 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                         if (tabbedPane == null) {
                             tabbedPane = new JTabbedPane();
 //                        tabbedPane.setUI(new SpacedTabbedPaneUI());
-                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+
+                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
+//                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                            theCodeField.addStyle();
 //                        theCodeField.setEditable(false);
@@ -257,6 +263,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                             if (newFile != null) {
                                 try {
                                     theCodeField.setPage(newFile.toURI().toURL());
+                                    System.out.println(newFile.toURI().toURL());
                                 }
 
                                 catch (IOException e1) {
@@ -277,7 +284,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
 
                         } else {
-                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
 //                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                        theCodeField.setEditable(false);
 
