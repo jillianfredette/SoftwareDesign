@@ -1,3 +1,6 @@
+import com.sun.deploy.util.ArrayUtil;
+import com.sun.tools.javac.util.ArrayUtils;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -9,6 +12,8 @@ import java.io.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.lang.StringBuilder;
+import java.util.ArrayList;
 
 import static java.awt.BorderLayout.WEST;
 
@@ -231,17 +236,42 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     }
 
     public void compileProject() {
-//        System.out.println(System.getProperty("user.dir"));
 
         com.sun.tools.javac.Main javac = new com.sun.tools.javac.Main();
+
+        // create "out" folder
         File outputFolder = new File(ProjectPath + '/' + ProjectName + '/' + "out");
         outputFolder.mkdir();
         String outputPath = ProjectPath + '/' + ProjectName + '/' + "out";
-        String fileToCompile = ProjectPath + '/' + ProjectName + "/src/Main.java";
-        String[] args = new String[] {
-                "-d", outputPath,
-                fileToCompile
-        };
+
+        // get all java file names in the "src" folder
+        File folder = new File(ProjectPath + '/' + ProjectName + '/' + "src");
+        File[] listOfFiles = folder.listFiles();
+        ArrayList<String> listOfJavaFiles = new ArrayList<String>();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                String fileName = listOfFiles[i].getName();
+
+                if (fileName.length() > 5) {
+                    String lastFiveDigits = "";     //substring containing last 5 characters
+                    lastFiveDigits = fileName.substring(fileName.length() - 5);
+
+                    if (lastFiveDigits.equals(".java")){
+                        listOfJavaFiles.add(fileName);
+
+                    }
+                }
+            }
+        }
+
+        //        String fileToCompile = ProjectPath + '/' + ProjectName + "/src/Main.java";
+        String[] args = new String[listOfJavaFiles.size() + 2];
+        args[0] =  "-d";
+        args[1] = outputPath;
+        for (int i=0; i<listOfJavaFiles.size(); i++){
+            args[i+2] = ProjectPath + '/' + ProjectName + "/src/" + listOfJavaFiles.get(i);
+        }
 
         int status = javac.compile(args);
         System.out.println(status);
