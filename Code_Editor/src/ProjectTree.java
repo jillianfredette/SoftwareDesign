@@ -135,6 +135,25 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
     }
 
+
+    // Get tab info in JTabbedPane
+    public int getTabCounts(){
+        int count = tabbedPane.getTabCount();
+        return count;
+    }
+
+    public String getTabTitle(int num){
+        int count = this.getTabCounts();
+        String title = tabbedPane.getTitleAt(num);
+        return title;
+    }
+
+    public JTabbedPane getTabbedPane(){
+        return tabbedPane;
+    }
+
+
+
     // Popup Specifics
     class TreePopup extends JPopupMenu {
         public TreePopup(JTree tree1) {
@@ -230,9 +249,9 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                         if (tabbedPane == null) {
                             tabbedPane = new JTabbedPane();
 //                        tabbedPane.setUI(new SpacedTabbedPaneUI());
-                            CodeField theCodeField = new CodeField();
-                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
-                            theCodeField.addStyle();
+                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+//                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+//                            theCodeField.addStyle();
 //                        theCodeField.setEditable(false);
 
                             if (newFile != null) {
@@ -251,15 +270,15 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                             }
 
                             tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
-                            theCodeField.addStyle();
+//                            theCodeField.addStyle();
                             theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
                             tabbedPane.setVisible(false);
                             tabbedPane.setVisible(true);
 
 
                         } else {
-                            CodeField theCodeField = new CodeField();
-                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
+//                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                        theCodeField.setEditable(false);
 
                             if (newFile != null) {
