@@ -1,21 +1,16 @@
-import com.sun.deploy.util.ArrayUtil;
-import com.sun.tools.javac.util.ArrayUtils;
-
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.metal.*;
-import javax.swing.text.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.OceanTheme;
 import java.awt.*;
-import java.io.*;
-import java.awt.event.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.lang.StringBuilder;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.nio.file.Path;
 
 import static java.awt.BorderLayout.WEST;
 
@@ -342,9 +337,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 saveProject();
                 //close project
                 theProjectTree.closeProjectTree();
-                theNewProjectFrame.remove(theProjectTree);
-                theNewProjectFrame.dispose();
-
 
                 CloseProjectFrame.dispose();
             }
@@ -356,9 +348,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 //close project
                 theProjectTree.closeProjectTree();
-                theNewProjectFrame.remove(theProjectTree);
-                theNewProjectFrame.dispose();
-
 
                 CloseProjectFrame.dispose();
             }
