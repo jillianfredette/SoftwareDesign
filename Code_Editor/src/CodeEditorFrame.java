@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +26,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     private String ProjectSDKPath;
     private NewProjectFrame theNewProjectFrame;
     private String outputPath;
-    private JEditorPane ExecutionPane;
+    private JTextPane ExecutionPane;
 
 
     public CodeEditorFrame() {
@@ -102,7 +104,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         ExecPanel.setBackground(Color.WHITE);
         ExecPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         ExecPanel.setPreferredSize(new Dimension(1500, 200));
-        ExecutionPane = new JEditorPane();
+        ExecutionPane = new JTextPane();
         ExecPanel.add(ExecutionPane);
 
 
@@ -301,10 +303,11 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         System.out.println(status);
     }
 
-    public void executeProject() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException, IOException, InterruptedException {
+    public void executeProject() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException, IOException, InterruptedException, BadLocationException {
 
         JEditorPane executionPane = new JEditorPane();
         ExecutionPane.setText("");
+        StyledDocument doc = ExecutionPane.getStyledDocument();
 
 
         Process p = Runtime.getRuntime().exec("java -cp "+outputPath+";. "+"Main");
@@ -312,8 +315,9 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         p.waitFor();
         BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream()));
         String line;
-        while((line = reader.readLine()) != null)
-            ExecutionPane.setText(line);
+        while((line = reader.readLine()) != null){
+            doc.insertString(doc.getLength(), line+"\n",null);
+        }
 
 
         System.out.println("Execution Successful");
@@ -415,6 +419,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (InterruptedException ex){
+                ex.printStackTrace();
+            }catch (BadLocationException ex){
                 ex.printStackTrace();
             }
         }
