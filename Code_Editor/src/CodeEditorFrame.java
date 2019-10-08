@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,6 +23,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     private String ProjectPath;
     private String ProjectSDKPath;
     private NewProjectFrame theNewProjectFrame;
+    private String outputPath;
+    private JEditorPane ExecutionPane;
 
 
     public CodeEditorFrame() {
@@ -100,7 +102,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         ExecPanel.setBackground(Color.WHITE);
         ExecPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         ExecPanel.setPreferredSize(new Dimension(1500, 200));
-
+        ExecutionPane = new JEditorPane();
+        ExecPanel.add(ExecutionPane);
 
 
 
@@ -264,7 +267,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         // create "out" folder
         File outputFolder = new File(ProjectPath + '/' + ProjectName + '/' + "out");
         outputFolder.mkdir();
-        String outputPath = ProjectPath + '/' + ProjectName + '/' + "out";
+        outputPath = ProjectPath + '/' + ProjectName + '/' + "out";
 
         // get all java file names in the "src" folder
         File folder = new File(ProjectPath + '/' + ProjectName + '/' + "src");
@@ -294,9 +297,27 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         for (int i=0; i<listOfJavaFiles.size(); i++){
             args[i+2] = ProjectPath + '/' + ProjectName + "/src/" + listOfJavaFiles.get(i);
         }
-
         int status = javac.compile(args);
         System.out.println(status);
+    }
+
+    public void executeProject() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException, IOException, InterruptedException {
+
+        JEditorPane executionPane = new JEditorPane();
+        ExecutionPane.setText("");
+
+
+        Process p = Runtime.getRuntime().exec("java -cp "+outputPath+";. "+"Main");
+
+        p.waitFor();
+        BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String line;
+        while((line = reader.readLine()) != null)
+            ExecutionPane.setText(line);
+
+
+        System.out.println("Execution Successful");
+
     }
 
     public void closeProject() {
@@ -379,6 +400,23 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             closeProject();
         } else if (buttonString.equals("Compile Project")) {
             compileProject();
+        }
+        else if (buttonString.equals("Execute Project")){
+            try {
+                executeProject();
+            } catch (InvocationTargetException ex) {
+                ex.printStackTrace();
+            } catch (IllegalAccessException ex) {
+                ex.printStackTrace();
+            } catch (NoSuchMethodException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (InterruptedException ex){
+                ex.printStackTrace();
+            }
         }
     }
 
