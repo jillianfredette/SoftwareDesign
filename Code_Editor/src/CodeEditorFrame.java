@@ -309,26 +309,52 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         compileProject();
 
-        JEditorPane executionPane = new JEditorPane();
-        ExecutionPane.setText("");
+        String mainClass = "";
 
-        StyledDocument doc = ExecutionPane.getStyledDocument();
-        SimpleAttributeSet att = new SimpleAttributeSet();
-        StyleConstants.setAlignment(att, StyleConstants.ALIGN_LEFT);
-        ExecutionPane.setParagraphAttributes(att, true);
+        File outFolder = new File(outputPath);
+        File[] listOfFiles = outFolder.listFiles();
+        String className;
 
-        Process p = Runtime.getRuntime().exec("java -cp "+outputPath+";. "+"Main");
-
-        p.waitFor();
-        BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream()));
-        String line;
-        while((line = reader.readLine()) != null){
-            doc.insertString(doc.getLength(), line+"\n",null);
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                String fileName = listOfFiles[i].getName();
+                if(fileName.substring(fileName.length() - 6).equals(".class")){
+                    className = fileName.substring(0,fileName.length() - 6);
+                    Process find = Runtime.getRuntime().exec("javap -cp "+outputPath+";. "+className);
+                    find.waitFor();
+                    BufferedReader reader2=new BufferedReader(new InputStreamReader(find.getInputStream()));
+                    String line;
+                    while((line = reader2.readLine()) != null){
+                        if(line.length() > 25) {
+                            if (line.substring(0, 25).equals("  public static void main"))
+                                mainClass = className;
+                        }
+                    }
+                }
+            }
         }
+        if(!mainClass.equals("")) {
+            JEditorPane executionPane = new JEditorPane();
+            ExecutionPane.setText("");
+
+            StyledDocument doc = ExecutionPane.getStyledDocument();
+            SimpleAttributeSet att = new SimpleAttributeSet();
+            StyleConstants.setAlignment(att, StyleConstants.ALIGN_LEFT);
+            ExecutionPane.setParagraphAttributes(att, true);
 
 
-        doc.insertString(doc.getLength(), "\n\nExecution Finished\n",null);
+            Process p = Runtime.getRuntime().exec("java -cp " + outputPath + ";. " + mainClass);
 
+            int statusCode = p.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                doc.insertString(doc.getLength(), line + "\n", null);
+            }
+
+
+            doc.insertString(doc.getLength(), "\n\nProcess finished with exit code " + statusCode + "\n", null);
+        }
     }
 
     public void closeProject() {
