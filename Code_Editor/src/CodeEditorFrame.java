@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -99,7 +101,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         // Code Executing Panel
         JPanel ExecPanel = new JPanel();
-        ExecPanel.setLayout(new FlowLayout());
+        ExecPanel.setLayout(new BorderLayout());
         this.add(ExecPanel, BorderLayout.SOUTH);
         ExecPanel.setBackground(Color.WHITE);
         ExecPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
@@ -305,10 +307,15 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     public void executeProject() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException, IOException, InterruptedException, BadLocationException {
 
+        compileProject();
+
         JEditorPane executionPane = new JEditorPane();
         ExecutionPane.setText("");
-        StyledDocument doc = ExecutionPane.getStyledDocument();
 
+        StyledDocument doc = ExecutionPane.getStyledDocument();
+        SimpleAttributeSet att = new SimpleAttributeSet();
+        StyleConstants.setAlignment(att, StyleConstants.ALIGN_LEFT);
+        ExecutionPane.setParagraphAttributes(att, true);
 
         Process p = Runtime.getRuntime().exec("java -cp "+outputPath+";. "+"Main");
 
@@ -320,7 +327,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         }
 
 
-        System.out.println("Execution Successful");
+        doc.insertString(doc.getLength(), "\n\nExecution Finished\n",null);
 
     }
 
