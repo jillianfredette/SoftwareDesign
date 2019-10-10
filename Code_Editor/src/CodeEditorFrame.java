@@ -21,7 +21,7 @@ import static java.awt.BorderLayout.WEST;
 
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
-    CodeField theCodeField;
+    JTextArea CodeField;
     private ProjectTree theProjectTree;
     private String ProjectName;
     private String ProjectPath;
@@ -76,6 +76,9 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         JMenuItem CloseProject = new JMenuItem("Close Project");
         FileMenu.add(CloseProject);
+
+        JMenuItem CountCharacters = new JMenuItem("Count Characters");
+        FileMenu.add(CountCharacters);
         CloseProject.addActionListener(this);
 
         // Run Menu
@@ -96,8 +99,25 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         JPanel StatPanel = new JPanel();
         this.add(StatPanel, BorderLayout.EAST);
         StatPanel.setBackground(Color.WHITE);
-        StatPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
+        StatPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.ORANGE));
         StatPanel.setPreferredSize(new Dimension(400, 800));
+        JLabel l1 = new JLabel("Words", JLabel.LEFT);
+        JLabel l2 = new JLabel("Characters");
+        StatPanel.add(l1);
+        StatPanel.add(l2);
+        l1.setBounds(50,25,100,30);
+        l2.setBounds(160,25,100,30);
+
+        CountCharacters.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //CodeField.append("Words");
+                String area = CodeField.getText();
+                String words[] = area.split("\\s");
+                l1.setText("Words: " + words.length);
+                l2.setText("Characters: " + area.length());
+            }
+        });
 
         // Code Executing Panel
         JPanel ExecPanel = new JPanel();
