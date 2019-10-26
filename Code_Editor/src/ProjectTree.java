@@ -1,14 +1,21 @@
 //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/TreeDemoProject/src/components/TreeDemo.java
 
 import javax.swing.*;
-import javax.swing.tree.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.io.*;
-import java.awt.event.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
-import javax.swing.event.*;
 
 
 public class ProjectTree extends JPanel implements TreeSelectionListener {
@@ -396,8 +403,11 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
     }
 
     public void closeProjectTree(){
-        tabbedPane.removeAll();
-        theCodeEditorFrame.remove(tabbedPane);
+
+        if(tabbedPane != null){
+            tabbedPane.removeAll();
+            theCodeEditorFrame.remove(tabbedPane);
+        }
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         root.removeAllChildren();
