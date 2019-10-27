@@ -164,6 +164,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
             JMenuItem add = new JMenuItem("Add File");
             JMenuItem open = new JMenuItem("Open File");
             JMenuItem close = new JMenuItem("Close File");
+            JMenuItem count = new JMenuItem("Count Characters");
             JMenuItem addFolder = new JMenuItem("Add Folder");
             JTextField field1 = new JTextField("File Name");
             delete.addActionListener(new ActionListener() {
@@ -174,6 +175,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                     model.removeNodeFromParent(selectedNode);
                 }
             });
+
 
 
 
@@ -244,7 +246,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
 
                     if(selectedNode.isLeaf()) {
-                        String diskPath = ProjectPath + "/" + ProjectName + "/src/" + selectedNode.getUserObject().toString();
+                        String diskPath = ProjectPath + "/" + ProjectName + "/" + selectedNode.getUserObject().toString();
                         String fileName = selectedNode.getUserObject().toString();
                         System.out.println(diskPath);
 
@@ -252,14 +254,13 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
                         if (tabbedPane == null) {
                             tabbedPane = new JTabbedPane();
-//                        tabbedPane.setUI(new SpacedTabbedPaneUI());
+//                          tabbedPane.setUI(new SpacedTabbedPaneUI());
 
                             CodeField theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
 //                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                            theCodeField.addStyle();
 //                        theCodeField.setEditable(false);
-
                             if (newFile != null) {
                                 try {
                                     theCodeField.setPage(newFile.toURI().toURL());
@@ -275,7 +276,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                             else {
                                 System.err.println("Couldn't find file");
                             }
-
                             tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
 //                            theCodeField.addStyle();
                             theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
@@ -302,7 +302,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                             else {
                                 System.err.println("Couldn't find file");
                             }
-
                             tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
                             theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
                             tabbedPane.setVisible(false);
@@ -324,6 +323,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                     }
                 }
             });
+
             add(open);
             add(new JSeparator());
 

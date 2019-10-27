@@ -4,7 +4,7 @@
     <list default="true" id="06d8fe74-3e91-467d-a6c5-a03dd1279324" name="Default" comment="Added the open functionality for existing Java files">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$3.class" afterDir="false" />
@@ -13,13 +13,21 @@
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$6.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeField.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeField.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/src/CodeEditorFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/CodeEditorFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/src/ProjectTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/ProjectTree.java" afterDir="false" />
     </list>
     <list id="d2c20d4f-ece0-4387-8d15-cdaa2171ee6a" name="squash! Added the open functionality for existing Java files" comment="squash! Added the open functionality for existing Java files" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

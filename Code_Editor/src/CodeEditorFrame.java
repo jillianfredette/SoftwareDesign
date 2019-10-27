@@ -1,3 +1,6 @@
+import com.sun.codemodel.internal.JOp;
+import com.sun.tools.javac.jvm.Code;
+
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
@@ -12,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.Buffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -112,6 +116,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //CodeField.append("Words");
+
                 String area = CodeField.getText();
                 String words[] = area.split("\\s");
                 l1.setText("Words: " + words.length);
@@ -191,7 +196,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
     }
-
+/*
     public void openProject() {
         // create frame
         JFrame openProjectFrame = new JFrame("Open Project");
@@ -217,7 +222,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 System.out.println("Here " + ProjectPath);
 
                 // Reads the filename and opens the file
-                //FileReader reader = new FileReader(fileName);
+                //FileReader reader = new FileReader(path);
 
                 // Create Project Tree
                 theProjectTree = new ProjectTree();
@@ -225,13 +230,15 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 this.add(theProjectTree, WEST);
                 theProjectTree.setVisible(false);
                 theProjectTree.setVisible(true);
+
+
                 /*
                 // Displays the file
                 BufferedReader scan = new BufferedReader(reader);
-                theCodeField.read(scan,null);
+                CodeField.read(scan,null);
                 scan.close();
-                theCodeField.requestFocus();
-                */
+                CodeField.requestFocus();
+
                 //theCodeField.addStyle();
         }
         // If the user cancelled the operation
@@ -239,6 +246,57 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
 
     }
+    */
+
+public void openProject() {
+    // create frame
+    JFrame openProjectFrame = new JFrame("Open Project");
+
+    // Create the File Chooser
+    JFileChooser theFileChooser = new JFileChooser("f");
+
+    // Opens only Directories
+    theFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+    // Invoke the showsOpenDialog function to show the save dialog
+    int option = theFileChooser.showOpenDialog(this);
+
+    // Opens the file the user selects if the file is acceptable
+    if (option == JFileChooser.APPROVE_OPTION) {
+        // Gets the selected directory
+        File theDirectory = theFileChooser.getSelectedFile();
+
+        String wholeProjectPath = theDirectory.getPath();
+        Path path = Paths.get(wholeProjectPath);
+        ProjectName = path.getFileName().toString();
+        ProjectPath = theDirectory.getParent();
+        System.out.println("Here " + ProjectPath);
+
+        // Reads the filename and opens the file
+        //FileReader reader = new FileReader(path);
+
+        // Create Project Tree
+        theProjectTree = new ProjectTree();
+        theProjectTree.openProjectTree(this, ProjectPath, ProjectName);
+        this.add(theProjectTree, WEST);
+        theProjectTree.setVisible(false);
+        theProjectTree.setVisible(true);
+
+
+                /*
+                // Displays the file
+                BufferedReader scan = new BufferedReader(reader);
+                CodeField.read(scan,null);
+                scan.close();
+                CodeField.requestFocus();
+                */
+        //theCodeField.addStyle();
+    }
+    // If the user cancelled the operation
+    else
+        JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
+
+}
 
 
     // Save all files in the project
@@ -268,7 +326,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             String fileName = theProjectTree.getTabTitle(i);
             System.out.println(fileName);
             try {
-                String filePath = ProjectPath + "/" + ProjectName + "/src/" + fileName;
+                String filePath = ProjectPath + "/" + ProjectName + "/" + fileName;
                 FileWriter out = new FileWriter(filePath);
                 System.out.println(filePath);
                 CodeField thisCodeField = (CodeField)theProjectTree.getTabbedPane().getComponent(i);
