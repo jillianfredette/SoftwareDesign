@@ -17,7 +17,7 @@ public class NewProjectFrame extends JFrame implements ActionListener {
 
     private String ProjectName;
     private String ProjectPath;
-    private String ProjectSDKPath;
+//    private String ProjectSDKPath;
     private CodeEditorFrame ParentFrame;
 
 
@@ -100,43 +100,43 @@ public class NewProjectFrame extends JFrame implements ActionListener {
         });
 
         // Project SDKs
-        JLabel SDKLabel = new JLabel("Project SDKs ");
-        InnerPanel.add(SDKLabel, BorderLayout.WEST);
+//        JLabel SDKLabel = new JLabel("Project SDKs ");
+//        InnerPanel.add(SDKLabel, BorderLayout.WEST);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 10)));
-
-        // Choose Location button
-        JButton SDKButton = new JButton("Choose Project SDKs:");
-        InnerPanel.add(SDKButton);
+//
+//        // Choose Location button
+//        JButton SDKButton = new JButton("Choose Project SDKs:");
+//        InnerPanel.add(SDKButton);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 10)));
 
         // Project Location Text Label
-        JLabel SDKOptionLabel = new JLabel(" ");
-        InnerPanel.add(SDKOptionLabel);
-        InnerPanel.add(Box.createRigidArea(new Dimension(10, 200)));
+//        JLabel SDKOptionLabel = new JLabel(" ");
+//        InnerPanel.add(SDKOptionLabel);
+        InnerPanel.add(Box.createRigidArea(new Dimension(10, 220)));
 
         // Section for "Choose Project Location" button
-        SDKButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-
-//                JFrame saveProjectFrame = new JFrame();
-
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Choose Project SDKs");
-
-                // Set the selection mode to directories only
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-                int option = fileChooser.showOpenDialog(null);
-                if(option == JFileChooser.APPROVE_OPTION){
-                    File file = fileChooser.getSelectedFile();
-                    ProjectSDKPath = file.getPath();
-//                    System.out.println(ProjectSDKPath);
-                    SDKOptionLabel.setText(ProjectSDKPath);
-                }
-
-            }
-        });
+//        SDKButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent actionEvent) {
+//
+////                JFrame saveProjectFrame = new JFrame();
+//
+//                JFileChooser fileChooser = new JFileChooser();
+//                fileChooser.setDialogTitle("Choose Project SDKs");
+//
+//                // Set the selection mode to directories only
+//                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//
+//                int option = fileChooser.showOpenDialog(null);
+//                if(option == JFileChooser.APPROVE_OPTION){
+//                    File file = fileChooser.getSelectedFile();
+//                    ProjectSDKPath = file.getPath();
+////                    System.out.println(ProjectSDKPath);
+//                    SDKOptionLabel.setText(ProjectSDKPath);
+//                }
+//
+//            }
+//        });
 
         JButton button1 = new JButton("Submit");
         InnerPanel.add(button1, BorderLayout.SOUTH);
@@ -166,7 +166,7 @@ public class NewProjectFrame extends JFrame implements ActionListener {
                         pw.println("// This is the Main class.");
                         pw.close();
 
-                        ParentFrame.displayNewProject(ProjectName, ProjectPath, ProjectSDKPath);
+                        ParentFrame.displayNewProject(ProjectName, ProjectPath);
 
                         setVisible(false);
 
@@ -198,9 +198,9 @@ public class NewProjectFrame extends JFrame implements ActionListener {
         return ProjectPath;
     }
 
-    public String getProjectSDKPath() {
-        return ProjectSDKPath;
-    }
+//    public String getProjectSDKPath() {
+//        return ProjectSDKPath;
+//    }
 
     public void actionPerformed(ActionEvent e) {
         String buttonString = e.getActionCommand();

@@ -7,7 +7,7 @@ import java.lang.String;
 public class Main {
     private String ProjectName;
     private String ProjectPath;
-    private String ProjectSDKPath;
+//    private String ProjectSDKPath;
 
 
     public static void main(String[] args) throws Exception {

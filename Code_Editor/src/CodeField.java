@@ -20,7 +20,7 @@ public class CodeField extends JTextPane implements ActionListener, KeyListener 
     private String FileName;
 
     public StyleContext context = new StyleContext();
-   public  Style style = context.addStyle("test", null);
+    public  Style style = context.addStyle("test", null);
 
 
     public CodeField(String theProjectName, String theProjectPath, String theFileName) {

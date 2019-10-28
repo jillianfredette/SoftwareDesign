@@ -29,7 +29,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     private ProjectTree theProjectTree;
     private String ProjectName;
     private String ProjectPath;
-    private String ProjectSDKPath;
+//    private String ProjectSDKPath;
     private NewProjectFrame theNewProjectFrame;
     private String outputPath;
     private JTextPane ExecutionPane;
@@ -162,11 +162,11 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 ========================================================================================================================================*/
     }
 
-    public void displayNewProject (String theProjectName, String theProjectPath, String theProjectSDK) {
+    public void displayNewProject (String theProjectName, String theProjectPath) {
 
         ProjectName = theProjectName;
         ProjectPath = theProjectPath;
-        ProjectSDKPath = theProjectSDK;
+//        ProjectSDKPath = theProjectSDK;
 
         // Create Project Tree
         theProjectTree = new ProjectTree();
@@ -568,9 +568,9 @@ public void openProject() {
         return ProjectPath;
     }
 
-    public String getProjectSDKPath() {
-        return ProjectSDKPath;
-    }
+//    public String getProjectSDKPath() {
+//        return ProjectSDKPath;
+//    }
 
 }
 
