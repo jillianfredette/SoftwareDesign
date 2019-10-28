@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="06d8fe74-3e91-467d-a6c5-a03dd1279324" name="Default" comment="Added the open functionality for existing Java files">
+    <list default="true" id="06d8fe74-3e91-467d-a6c5-a03dd1279324" name="Default" comment="added some color to the text">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeField.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$3.class" afterDir="false" />
@@ -26,8 +16,7 @@
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/src/CodeEditorFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/CodeEditorFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/src/ProjectTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/ProjectTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/src/CodeField.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/CodeField.java" afterDir="false" />
     </list>
     <list id="d2c20d4f-ece0-4387-8d15-cdaa2171ee6a" name="squash! Added the open functionality for existing Java files" comment="squash! Added the open functionality for existing Java files" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,6 +37,7 @@
   </component>
   <component name="ProjectId" id="1QiIY1c8wF1NOnw3kVq595TSF81" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
@@ -125,5 +115,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added some color to the text" />
+    <option name="LAST_COMMIT_MESSAGE" value="added some color to the text" />
   </component>
 </project>
