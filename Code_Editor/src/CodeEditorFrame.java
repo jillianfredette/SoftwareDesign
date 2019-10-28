@@ -326,7 +326,7 @@ public void openProject() {
             String fileName = theProjectTree.getTabTitle(i);
             System.out.println(fileName);
             try {
-                String filePath = ProjectPath + "/" + ProjectName + "/" + fileName;
+                String filePath = ProjectPath + "/" + ProjectName + "/src/" + fileName;
                 FileWriter out = new FileWriter(filePath);
                 System.out.println(filePath);
                 CodeField thisCodeField = (CodeField)theProjectTree.getTabbedPane().getComponent(i);
