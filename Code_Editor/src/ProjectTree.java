@@ -217,6 +217,9 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                         String input = JOptionPane.showInputDialog("New File Name");
 
                         if (input != null) {
+                            if (!input.contains(".java")){
+                                input = input + ".java";
+                            }
                             DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
                             DefaultMutableTreeNode folder = null;
                             selectedNode.add(new DefaultMutableTreeNode(input));
