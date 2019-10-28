@@ -253,7 +253,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
 
                     if(selectedNode.isLeaf()) {
-                        String diskPath = ProjectPath + "/" + ProjectName + "/" + selectedNode.getUserObject().toString();
+                        String diskPath = ProjectPath + "/" + ProjectName + "/src/" + selectedNode.getUserObject().toString();
                         String fileName = selectedNode.getUserObject().toString();
                         System.out.println(diskPath);
 
