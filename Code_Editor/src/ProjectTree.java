@@ -5,6 +5,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -76,7 +77,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         //Add the tree view to this panel.
         add(treeView);
 
-
         // Show Popup on Tree
         final TreePopup treePopup = new TreePopup(tree);
         tree.addMouseListener(new MouseAdapter() {
@@ -118,7 +118,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         //Add the tree view to this panel.
         add(treeView);
 
-
         // Show Popup on Tree
         final TreePopup treePopup = new TreePopup(tree);
         tree.addMouseListener(new MouseAdapter() {
@@ -145,11 +144,9 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
     }
 
-
     // Get tab info in JTabbedPane
     public int getTabCounts(){
-        int count = tabbedPane.getTabCount();
-        return count;
+        return tabbedPane.getTabCount();
     }
 
     public String getTabTitle(int num){
@@ -161,8 +158,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
     public JTabbedPane getTabbedPane(){
         return tabbedPane;
     }
-
-
 
     // Popup Specifics
     class TreePopup extends JPopupMenu {
@@ -182,8 +177,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                     model.removeNodeFromParent(selectedNode);
                 }
             });
-
-
 
 
             add.addActionListener(new ActionListener() {
@@ -252,15 +245,18 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
             open.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
-
+                    TreePath tp = tree.getSelectionPath();
+                    Object filePathToAdd = tp.getLastPathComponent();
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) filePathToAdd;
 
                     if(selectedNode.isLeaf()) {
-                        String diskPath = ProjectPath + "/" + ProjectName + "/src/" + selectedNode.getUserObject().toString();
-                        String fileName = selectedNode.getUserObject().toString();
+                        String path = tp.toString();
+                        String diskPath = ProjectPath + "/" +
+                                path.replaceAll("\\]| |\\[|", "").replaceAll(",", File.separator);
                         System.out.println(diskPath);
-
+                        String fileName = selectedNode.getUserObject().toString();
                         File newFile = new File(diskPath);
+
 
                         if (tabbedPane == null) {
                             tabbedPane = new JTabbedPane();
@@ -270,7 +266,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 //                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
 //                            theCodeField.addStyle();
-//                        theCodeField.setEditable(false);
+//                            theCodeField.setEditable(false);
                             if (newFile != null) {
                                 try {
                                     theCodeField.setPage(newFile.toURI().toURL());
@@ -287,7 +283,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                                 System.err.println("Couldn't find file");
                             }
                             tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
-//                            theCodeField.addStyle();
                             theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
                             tabbedPane.setVisible(false);
                             tabbedPane.setVisible(true);

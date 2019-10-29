@@ -1,7 +1,4 @@
 import javax.swing.*;
-import java.io.*;
-import java.util.*;
-import java.util.Scanner;
 import java.lang.String;
 
 public class Main {
