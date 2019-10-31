@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06d8fe74-3e91-467d-a6c5-a03dd1279324" name="Default" comment="Open file in existing project bug gone">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$2.class" afterDir="false" />
@@ -12,10 +10,8 @@
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$5.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame$6.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeEditorFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeField.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/CodeField.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/NewProjectFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$1.class" afterDir="false" />
@@ -26,8 +22,8 @@
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree$TreePopup.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/ProjectTree.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code_Editor/out/production/1_Sept_9/workspace.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/src/CodeEditorFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/CodeEditorFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code_Editor/src/CodeField.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/CodeField.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code_Editor/src/ProjectTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/Code_Editor/src/ProjectTree.java" afterDir="false" />
     </list>
@@ -55,6 +51,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.excludes" />
@@ -119,6 +118,14 @@
       <option name="presentableId" value="Default" />
       <updated>1568067166710</updated>
     </task>
+    <task id="LOCAL-00001" summary="Open file in existing project bug gone">
+      <created>1572312603384</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1572312603384</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

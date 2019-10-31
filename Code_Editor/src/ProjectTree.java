@@ -20,6 +20,7 @@ import java.nio.file.Path;
 
 
 public class ProjectTree extends JPanel implements TreeSelectionListener {
+
     private JTree tree;
     DefaultMutableTreeNode top;
     private DefaultTreeModel treeModel;
@@ -28,7 +29,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
     private String ProjectName;
     private String ProjectPath;
-    private String ProjectSDKPath;
     private CodeEditorFrame theCodeEditorFrame;
     private JTabbedPane tabbedPane = null;
 
@@ -76,6 +76,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
         //Add the tree view to this panel.
         add(treeView);
+        tree.setScrollsOnExpand(false);
 
         // Show Popup on Tree
         final TreePopup treePopup = new TreePopup(tree);
@@ -83,7 +84,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
             public void mouseReleased(MouseEvent e) {
                 if(e.getButton() == MouseEvent.BUTTON3) {
                     treePopup.show(e.getComponent(), e.getX(), e.getY());
-                    System.out.println(e.getComponent());
+                    //System.out.println(e.getComponent());
                 }
             }
         });
@@ -113,10 +114,15 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         tree.addTreeSelectionListener(this);
 
         //Create the scroll pane and add the tree to it.
-        JScrollPane treeView = new JScrollPane(tree);
+        JScrollPane treeView = new JScrollPane(tree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        JScrollBar bar = treeView.getVerticalScrollBar();
+        bar.setPreferredSize(new Dimension(50, 0));
 
         //Add the tree view to this panel.
         add(treeView);
+        tree.setScrollsOnExpand(false);
 
         // Show Popup on Tree
         final TreePopup treePopup = new TreePopup(tree);
@@ -124,7 +130,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
             public void mouseReleased(MouseEvent e) {
                 if(e.getButton() == MouseEvent.BUTTON3) {
                     treePopup.show(e.getComponent(), e.getX(), e.getY());
-                    System.out.println(e.getComponent());
+                    //System.out.println(e.getComponent());
                 }
             }
         });
@@ -162,13 +168,16 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
     // Popup Specifics
     class TreePopup extends JPopupMenu {
         public TreePopup(JTree tree1) {
-            JMenuItem delete = new JMenuItem("Delete");
+
+            JMenuItem delete = new JMenuItem("Delete File");
             JMenuItem add = new JMenuItem("Add File");
             JMenuItem open = new JMenuItem("Open File");
             JMenuItem close = new JMenuItem("Close File");
             JMenuItem count = new JMenuItem("Count Characters");
             JMenuItem addFolder = new JMenuItem("Add Folder");
             JTextField field1 = new JTextField("File Name");
+
+
             delete.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
                     System.out.println("Delete child");
@@ -177,7 +186,8 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                     model.removeNodeFromParent(selectedNode);
                 }
             });
-
+            add(delete);
+            add(new JSeparator());
 
             add.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
@@ -185,24 +195,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                     DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
                     DefaultMutableTreeNode tempRoot = selectedNode.getPreviousNode();
                     DefaultMutableTreeNode root = (DefaultMutableTreeNode) selectedNode.getRoot();
-                    //System.out.println("This is first leaf: " + selectedNode.getPreviousNode());
-                    // IS EMPTY OR NOT - System.out.println("This is first leaf: " + selectedNode.isLeaf());
-
-                    // If selected node is a file, make a sibiling file
-//                    if(selectedNode.isLeaf()){
-//                        String input = JOptionPane.showInputDialog("New File Name");
-//                        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-//                        tempRoot.add(new DefaultMutableTreeNode(input + ".java"));
-//                        model.reload();
-//
-//                    } else {
-//                        String input = JOptionPane.showInputDialog("New Folder Name");
-//                        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-//                        DefaultMutableTreeNode folder = null;
-//                        selectedNode.add(new DefaultMutableTreeNode(input));
-////                        root.add(new DefaultMutableTreeNode("top" + input));
-//                        model.reload();
-//                    }
 
                     if(selectedNode.isLeaf()){
 
@@ -228,19 +220,14 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                             } catch (IOException e) {
                                 System.err.println("Problem writing to the file.");
                             }
-
                             model.reload();
                         }
-
                     }
-                    //selectedNode.add();
-
                 }
             });
             add(add);
             add(new JSeparator());
-            add(delete);
-            add(new JSeparator());
+
 
             open.addActionListener(new ActionListener() {
                 @Override
@@ -253,78 +240,54 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                         String path = tp.toString();
                         String diskPath = ProjectPath + "/" +
                                 path.replaceAll("\\]| |\\[|", "").replaceAll(",", File.separator);
-                        System.out.println(diskPath);
                         String fileName = selectedNode.getUserObject().toString();
                         File newFile = new File(diskPath);
 
-
                         if (tabbedPane == null) {
+
                             tabbedPane = new JTabbedPane();
-//                          tabbedPane.setUI(new SpacedTabbedPaneUI());
 
                             CodeField theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
-//                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
-//                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
-//                            theCodeField.addStyle();
-//                            theCodeField.setEditable(false);
+
+                            JScrollPane scrollableCodePane = new JScrollPane(theCodeField, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
                             if (newFile != null) {
                                 try {
                                     theCodeField.setPage(newFile.toURI().toURL());
-                                    System.out.println(newFile.toURI().toURL());
-                                }
-
-                                catch (IOException e1) {
+                                } catch (IOException e1) {
                                     System.err.println("Attempted to read a bad file " + newFile );
                                     e1.printStackTrace();
                                 }
-                            }
-
-                            else {
+                            } else {
                                 System.err.println("Couldn't find file");
                             }
-                            tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
+                            tabbedPane.addTab(selectedNode.getUserObject().toString(), scrollableCodePane);
                             theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
                             tabbedPane.setVisible(false);
                             tabbedPane.setVisible(true);
-
-
                         } else {
                             CodeField theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
-//                            theCodeField.setProjectInfo(ProjectName, ProjectPath, selectedNode.getUserObject().toString());
-//                        theCodeField.setEditable(false);
+                            JScrollPane scrollableCodeField = new JScrollPane(theCodeField, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                            scrollableCodeField.setBounds(5,5,300,200);
 
                             if (newFile != null) {
                                 try {
                                     theCodeField.setPage(newFile.toURI().toURL());
-                                }
-
-                                catch (IOException e1) {
+                                } catch (IOException e1) {
                                     System.err.println("Attempted to read a bad file " + newFile );
                                     e1.printStackTrace();
                                 }
-                            }
-
-                            else {
+                            } else {
                                 System.err.println("Couldn't find file");
                             }
-                            tabbedPane.addTab(selectedNode.getUserObject().toString(), theCodeField);
+                            tabbedPane.addTab(selectedNode.getUserObject().toString(), scrollableCodeField);
                             theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
                             tabbedPane.setVisible(false);
                             tabbedPane.setVisible(true);
 
                         }
-
-
-
-
-
-//                        theCodeEditorFrame.add(theCodeField, BorderLayout.CENTER);
-//                        theCodeField.setVisible(false);
-//                        theCodeField.setVisible(true);
-
-
-
-
                     }
                 }
             });
@@ -385,13 +348,12 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                         }
                     });
 
-
                     CloseProjectFrame.setVisible(true);
+
                 }
             });
+
             add(close);
-
-
         }
     }
 
@@ -412,6 +374,5 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         model.reload();
         model.setRoot(null);
     }
-
 
 }

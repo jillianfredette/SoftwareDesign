@@ -47,53 +47,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         catch (Exception e) {
 
         }
-
-        // Menu Bar
-        JMenuBar MenuBar = new JMenuBar();
-        this.setJMenuBar(MenuBar);
-        MenuBar.setPreferredSize(new Dimension(1500, 40));
-
-        // File Menu
-        JMenu FileMenu = new JMenu("File");
-        //FileMenu.addActionListener(Project);
-
-        JMenuItem NewProject = new JMenuItem("New Project");
-        FileMenu.add(NewProject);
-        NewProject.addActionListener(this);
-
-        JMenuItem OpenProject = new JMenuItem("Open Project");
-        FileMenu.add(OpenProject);
-        OpenProject.addActionListener(this);
-
-        JMenuItem SaveProject = new JMenuItem("Save Project");
-        FileMenu.add(SaveProject);
-        SaveProject.addActionListener(this);
-
-        JMenuItem EditProject = new JMenuItem("Edit Project");
-        FileMenu.add(EditProject);
-
-        JMenuItem CloseProject = new JMenuItem("Close Project");
-        FileMenu.add(CloseProject);
-
-        JMenuItem CountCharacters = new JMenuItem("Count Characters");
-        FileMenu.add(CountCharacters);
-        CloseProject.addActionListener(this);
-
-        // Run Menu
-        JMenu RunMenu = new JMenu("Run");
-        JMenuItem CompileProject = new JMenuItem("Compile Project");
-        RunMenu.add(CompileProject);
-        CompileProject.addActionListener(this);
-
-        JMenuItem ExecuteProject = new JMenuItem("Execute Project");
-        RunMenu.add(ExecuteProject);
-        ExecuteProject.addActionListener(this);
-
-        MenuBar.add(FileMenu);
-        MenuBar.add(RunMenu);
-
-
-         // Statistic Panel
+        // Statistic Panel
         JPanel StatPanel = new JPanel();
         this.add(StatPanel, BorderLayout.EAST);
         StatPanel.setBackground(Color.WHITE);
@@ -106,18 +60,6 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         l1.setBounds(50,25,100,30);
         l2.setBounds(160,25,100,30);
 
-        CountCharacters.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //CodeField.append("Words");
-
-                String area = CodeField.getText();
-                String[] words = area.split("\\s");
-                l1.setText("Words: " + words.length);
-                l2.setText("Characters: " + area.length());
-            }
-        });
-
         // Code Executing Panel
         JPanel ExecPanel = new JPanel();
         ExecPanel.setLayout(new BorderLayout());
@@ -128,39 +70,68 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         ExecutionPane = new JTextPane();
         ExecPanel.add(ExecutionPane);
 
+        // Menu Bar
+        JMenuBar MenuBar = new JMenuBar();
+        this.setJMenuBar(MenuBar);
+        MenuBar.setPreferredSize(new Dimension(1500, 40));
 
+        // File Menu
+        JMenu FileMenu = new JMenu("File");
 
-/*========================================================================================================================================
-        RIGHT CLICK DELETE/EDIT FUNCTIONALITY
-        WORKS FOR COMPILER AND STATS SECTION BUT NOT THE FILE BROWSER SECTION
-        JPopupMenu rMenu = new JPopupMenu();
-        JMenuItem delete = new JMenuItem("Delete");
+        // Menu Item New Project
+        JMenuItem NewProject = new JMenuItem("New Project");
+        FileMenu.add(NewProject);
+        NewProject.addActionListener(this);
 
-        addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if(e.getButton() == MouseEvent.BUTTON3){
-                rMenu.show(e.getComponent(), e.getX(), e.getY());
-                System.out.println("Right Click, Activated");
-                }
+        // Menu Item Open Project
+        JMenuItem OpenProject = new JMenuItem("Open Project");
+        FileMenu.add(OpenProject);
+        OpenProject.addActionListener(this);
+
+        // Menu Item Save Project
+        JMenuItem SaveProject = new JMenuItem("Save Project");
+        FileMenu.add(SaveProject);
+        SaveProject.addActionListener(this);
+
+        // Menu Item Edit Project
+        JMenuItem EditProject = new JMenuItem("Edit Project");
+        FileMenu.add(EditProject);
+
+        // Menu Item Close Project
+        JMenuItem CloseProject = new JMenuItem("Close Project");
+        FileMenu.add(CloseProject);
+        CloseProject.addActionListener(this);
+
+        // Menu Item Count Characters
+        JMenuItem CountCharacters = new JMenuItem("Count Characters");
+        FileMenu.add(CountCharacters);
+        CountCharacters.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String area = CodeField.getText();
+                String[] words = area.split("\\s");
+                l1.setText("Words: " + words.length);
+                l2.setText("Characters: " + area.length());
             }
         });
+        // Run Menu
+        JMenu RunMenu = new JMenu("Run");
+        JMenuItem CompileProject = new JMenuItem("Compile Project");
+        RunMenu.add(CompileProject);
+        CompileProject.addActionListener(this);
 
-        delete.addActionListener(new ActionListener() {
-            @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.println("This item has been deleted!");
-                }
-        });
-        rMenu.add(delete);
-========================================================================================================================================*/
+        JMenuItem ExecuteProject = new JMenuItem("Execute Project");
+        RunMenu.add(ExecuteProject);
+        ExecuteProject.addActionListener(this);
+
+        MenuBar.add(FileMenu);
+        MenuBar.add(RunMenu);
     }
 
     public void displayNewProject (String theProjectName, String theProjectPath) {
 
         ProjectName = theProjectName;
         ProjectPath = theProjectPath;
-//        ProjectSDKPath = theProjectSDK;
 
         // Create Project Tree
         theProjectTree = new ProjectTree();
@@ -168,28 +139,12 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         this.add(theProjectTree, WEST);
         theProjectTree.setVisible(false);
         theProjectTree.setVisible(true);
-/*
-        CodeField theCodeField = new CodeField();
-        theCodeField.addStyle();
-        this.add(theCodeField, BorderLayout.CENTER);
-*/
     }
 
     public void newProject() {
         // create frame using NewProjectFrame class
-        //    private String ProjectSDKPath;
         NewProjectFrame theNewProjectFrame = new NewProjectFrame(this);
         theNewProjectFrame.setVisible(true);
-
-
-
-//        CodeField theCodeField = new CodeField();
-//        this.add(theCodeField, BorderLayout.CENTER);
-
-
-        // write your code for New Project functionality here
-
-
     }
 
 public void openProject() {
@@ -214,10 +169,6 @@ public void openProject() {
         Path path = Paths.get(wholeProjectPath);
         ProjectName = path.getFileName().toString();
         ProjectPath = theDirectory.getParent();
-        System.out.println("Here " + ProjectPath);
-
-        // Reads the filename and opens the file
-        //FileReader reader = new FileReader(path);
 
         // Create Project Tree
         theProjectTree = new ProjectTree();
@@ -225,23 +176,12 @@ public void openProject() {
         this.add(theProjectTree, WEST);
         theProjectTree.setVisible(false);
         theProjectTree.setVisible(true);
-
-
-                /*
-                // Displays the file
-                BufferedReader scan = new BufferedReader(reader);
-                CodeField.read(scan,null);
-                scan.close();
-                CodeField.requestFocus();
-                */
-        //theCodeField.addStyle();
     }
     // If the user cancelled the operation
     else
         JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
 
 }
-
 
     // Save all files in the project
     public void saveProject() {
@@ -281,8 +221,6 @@ public void openProject() {
             }
 
         }
-
-
 
     }
 
@@ -452,7 +390,6 @@ public void openProject() {
             newProject();
         } else if (buttonString.equals("Open Project")) {
             openProject();
-
         } else if (buttonString.equals("Save Project")) {
             saveProject();
         } else if (buttonString.equals("Close Project")) {
@@ -511,10 +448,6 @@ public void openProject() {
     public String getProjectPath() {
         return ProjectPath;
     }
-
-//    public String getProjectSDKPath() {
-//        return ProjectSDKPath;
-//    }
 
 }
 
