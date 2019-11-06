@@ -268,6 +268,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
     public void executeProject() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException, IOException, InterruptedException, BadLocationException {
 
+        Runtime rt = Runtime.getRuntime();
+        rt.traceMethodCalls(true);
         compileProject();
 
         String mainClass = "";
@@ -275,12 +277,15 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         File outFolder = new File(outputPath);
         File[] listOfFiles = outFolder.listFiles();
         String className;
+        String classesLoaded = "";
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 String fileName = listOfFiles[i].getName();
                 if(fileName.substring(fileName.length() - 6).equals(".class")){
                     className = fileName.substring(0,fileName.length() - 6);
+                    if(i < listOfFiles.length-1)  classesLoaded = classesLoaded+className+", ";
+                    else classesLoaded = classesLoaded+className;
                     Process find = Runtime.getRuntime().exec("javap -cp "+outputPath+";. "+className);
                     find.waitFor();
                     BufferedReader reader2=new BufferedReader(new InputStreamReader(find.getInputStream()));
@@ -304,9 +309,10 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             ExecutionPane.setParagraphAttributes(att, true);
 
 
-            Process p = Runtime.getRuntime().exec("java -cp " + outputPath + ";. " + mainClass);
+            Process p = rt.exec("java -cp " + outputPath + ";. " + mainClass);
 
             int statusCode = p.waitFor();
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -315,6 +321,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
             doc.insertString(doc.getLength(), "\n\nProcess finished with exit code " + statusCode + "\n", null);
+            doc.insertString(doc.getLength(), "\n\nClasses Loaded in Memory: " + classesLoaded + "\n", null);
         }
     }
 
