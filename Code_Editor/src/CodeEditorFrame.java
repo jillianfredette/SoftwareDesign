@@ -69,7 +69,8 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         ExecPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         ExecPanel.setPreferredSize(new Dimension(1500, 200));
         ExecutionPane = new JTextPane();
-        ExecPanel.add(ExecutionPane);
+        JScrollPane ExecutionScrollPane = new JScrollPane(ExecutionPane);
+        ExecPanel.add(ExecutionScrollPane);
 
         // Menu Bar
         JMenuBar MenuBar = new JMenuBar();
@@ -278,19 +279,22 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         File[] listOfFiles = outFolder.listFiles();
         String className;
         String classesLoaded = "";
+        String methodsCalled = "";
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 String fileName = listOfFiles[i].getName();
                 if(fileName.substring(fileName.length() - 6).equals(".class")){
                     className = fileName.substring(0,fileName.length() - 6);
-                    if(i < listOfFiles.length-1)  classesLoaded = classesLoaded+className+", ";
-                    else classesLoaded = classesLoaded+className;
-                    Process find = Runtime.getRuntime().exec("javap -cp "+outputPath+";. "+className);
+                    classesLoaded = classesLoaded+"\n  "+className;
+                    Process find = Runtime.getRuntime().exec("javap -p -cp "+outputPath+";. "+className);
                     find.waitFor();
                     BufferedReader reader2=new BufferedReader(new InputStreamReader(find.getInputStream()));
                     String line;
                     while((line = reader2.readLine()) != null){
+                        if(line.contains("(")&&line.contains(")")){
+                            methodsCalled = methodsCalled+"\n"+line;
+                        }
                         if(line.length() > 25) {
                             if (line.substring(0, 25).equals("  public static void main"))
                                 mainClass = className;
@@ -300,15 +304,15 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             }
         }
         if(!mainClass.equals("")) {
-            JEditorPane executionPane = new JEditorPane();
             ExecutionPane.setText("");
+
 
             StyledDocument doc = ExecutionPane.getStyledDocument();
             SimpleAttributeSet att = new SimpleAttributeSet();
             StyleConstants.setAlignment(att, StyleConstants.ALIGN_LEFT);
             ExecutionPane.setParagraphAttributes(att, true);
 
-            //can use javap -p for finding names of methods called during execution
+            //can use javap -c for finding names of methods called during execution
 
             Process p = rt.exec("java -cp " + outputPath + ";. " + mainClass);
 
@@ -322,7 +326,9 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
 
             doc.insertString(doc.getLength(), "\n\nProcess finished with exit code " + statusCode + "\n", null);
-            doc.insertString(doc.getLength(), "\n\nClasses Loaded in Memory: " + classesLoaded + "\n", null);
+            doc.insertString(doc.getLength(), "\n\nExecution Information:\n", null);
+            doc.insertString(doc.getLength(), "\nClasses: " + classesLoaded + "\n", null);
+            doc.insertString(doc.getLength(), "\nMethods: " + methodsCalled + "\n", null);
         }
     }
 
