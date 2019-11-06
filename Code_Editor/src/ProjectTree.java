@@ -21,6 +21,7 @@ import java.nio.file.Path;
 
 public class ProjectTree extends JPanel implements TreeSelectionListener {
 
+    private String osName = System.getProperty("os.name");
     private JTree tree;
     DefaultMutableTreeNode top;
     private DefaultTreeModel treeModel;
@@ -238,8 +239,14 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
                     if(selectedNode.isLeaf()) {
                         String path = tp.toString();
-                        String diskPath = ProjectPath + "/" +
-                                path.replaceAll("\\]| |\\[|", "").replaceAll(",", File.separator);
+                        String diskPath = "";
+                        if(osName.toUpperCase().contains("WIN"))
+                            diskPath = ProjectPath + "\\" +
+                                path.replace("[", "").replace("]","").replace(", ", File.separator);
+                        else if(osName.toUpperCase().contains("MAC"))
+                            diskPath = ProjectPath + "/" +
+                                    path.replaceAll("\\]| |\\[|", "").replaceAll(",", File.separator);
+                        System.out.println(diskPath);
                         String fileName = selectedNode.getUserObject().toString();
                         File newFile = new File(diskPath);
 
