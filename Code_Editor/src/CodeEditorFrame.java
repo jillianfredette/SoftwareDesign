@@ -308,6 +308,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             StyleConstants.setAlignment(att, StyleConstants.ALIGN_LEFT);
             ExecutionPane.setParagraphAttributes(att, true);
 
+            //can use javap -p for finding names of methods called during execution
 
             Process p = rt.exec("java -cp " + outputPath + ";. " + mainClass);
 
