@@ -306,7 +306,9 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
+                    TreePath tp = tree.getSelectionPath();
+                    Object filePathToAdd = tp.getLastPathComponent();
+                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) filePathToAdd;
 
                     JFrame CloseProjectFrame = new JFrame("Close File");
                     CloseProjectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

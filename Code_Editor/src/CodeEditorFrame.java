@@ -22,6 +22,7 @@ import static java.awt.BorderLayout.WEST;
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
     JTextArea CodeField;
+    private String osName = System.getProperty("os.name");
     private ProjectTree theProjectTree;
     private String ProjectName;
     private String ProjectPath;
@@ -147,7 +148,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         theNewProjectFrame.setVisible(true);
     }
 
-public void openProject() {
+    public void openProject() {
     // create frame
     JFrame openProjectFrame = new JFrame("Open Project");
 
@@ -365,9 +366,15 @@ public void openProject() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close project
-                theProjectTree.closeProjectTree();
-
+                if(theProjectTree != null) {
+                    theProjectTree.closeProjectTree();
+                    removeProjectTree();
+                    theProjectTree = null;
+                    ProjectName = null;
+                    ProjectPath = null;
+                }
                 CloseProjectFrame.dispose();
+
             }
         });
 
@@ -447,6 +454,10 @@ public void openProject() {
 
     public String getProjectPath() {
         return ProjectPath;
+    }
+
+    public void removeProjectTree(){
+        if(theProjectTree != null) this.remove(theProjectTree);
     }
 
 }
