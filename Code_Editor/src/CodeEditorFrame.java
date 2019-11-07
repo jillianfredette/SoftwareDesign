@@ -286,20 +286,39 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 String fileName = listOfFiles[i].getName();
                 if(fileName.substring(fileName.length() - 6).equals(".class")){
                     className = fileName.substring(0,fileName.length() - 6);
-                    classesLoaded = classesLoaded+"\n  "+className;
-                    Process find = Runtime.getRuntime().exec("javap -p -cp "+outputPath+";. "+className);
-                    find.waitFor();
-                    BufferedReader reader2=new BufferedReader(new InputStreamReader(find.getInputStream()));
-                    String line;
-                    while((line = reader2.readLine()) != null){
-                        if(line.contains("(")&&line.contains(")")){
-                            methodsCalled = methodsCalled+"\n"+line;
+                    classesLoaded = classesLoaded + "\n  "+className;
+                    Process find = null;
+                    if(osName.toUpperCase().contains("WIN")){
+                        find = Runtime.getRuntime().exec("javap -p -cp "+outputPath+";. "+className);
+                        find.waitFor();
+                        BufferedReader reader2=new BufferedReader(new InputStreamReader(find.getInputStream()));
+                        String line;
+                        while((line = reader2.readLine()) != null){
+                            if(line.contains("(")&&line.contains(")")){
+                                methodsCalled = methodsCalled + "\n"+line;
+                            }
+                            if(line.length() > 25) {
+                                if (line.substring(0, 25).equals("  public static void main"))
+                                    mainClass = className;
+                            }
                         }
-                        if(line.length() > 25) {
-                            if (line.substring(0, 25).equals("  public static void main"))
-                                mainClass = className;
+                    } else if(osName.toUpperCase().contains("MAC")){
+                        find = Runtime.getRuntime().exec("javap -cp " + outputPath + " " + className);
+                        find.waitFor();
+                        BufferedReader reader2=new BufferedReader(new InputStreamReader(find.getInputStream()));
+                        String line;
+                        while((line = reader2.readLine()) != null){
+                            if(line.contains("(")&&line.contains(")")){
+                                methodsCalled = methodsCalled + "\n"+line;
+                            }
+                            if(line.length() > 25) {
+                                if (line.substring(0, 25).equals("  public static void main"))
+                                    mainClass = className;
+                            }
                         }
                     }
+
+
                 }
             }
         }
@@ -313,20 +332,28 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             ExecutionPane.setParagraphAttributes(att, true);
 
             //can use javap -c for finding names of methods called during execution
-
-            Process p = rt.exec("java -cp " + outputPath + ";. " + mainClass);
-
-            int statusCode = p.waitFor();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                doc.insertString(doc.getLength(), line + "\n", null);
+            Process p = null;
+            int statusCode = -1;
+            if(osName.toUpperCase().contains("WIN")){
+                p = rt.exec("java -cp " + outputPath + ";. " + mainClass);
+                statusCode = p.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    doc.insertString(doc.getLength(), line + "\n", null);
+                }
+            } else if(osName.toUpperCase().contains("MAC")){
+                p = rt.exec("java -cp " + outputPath + " " + mainClass);
+                statusCode = p.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    doc.insertString(doc.getLength(), line + "\n", null);
+                }
             }
 
-
-            doc.insertString(doc.getLength(), "\n\nProcess finished with exit code " + statusCode + "\n", null);
-            doc.insertString(doc.getLength(), "\n\nExecution Information:\n", null);
+            doc.insertString(doc.getLength(), "\nProcess finished with exit code " + statusCode + "\n", null);
+            doc.insertString(doc.getLength(), "\nExecution Information:\n", null);
             doc.insertString(doc.getLength(), "\nClasses: " + classesLoaded + "\n", null);
             doc.insertString(doc.getLength(), "\nMethods: " + methodsCalled + "\n", null);
         }
