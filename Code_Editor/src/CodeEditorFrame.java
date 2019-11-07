@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static java.awt.BorderLayout.WEST;
 
@@ -342,7 +343,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 while ((line = reader.readLine()) != null) {
                     doc.insertString(doc.getLength(), line + "\n", null);
                 }
-            } else if(osName.toUpperCase().contains("MAC")){
+            } else if(osName.toUpperCase().contains("MAC")) {
                 p = rt.exec("java -cp " + outputPath + " " + mainClass);
                 statusCode = p.waitFor();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -350,12 +351,34 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 while ((line = reader.readLine()) != null) {
                     doc.insertString(doc.getLength(), line + "\n", null);
                 }
-            }
 
-            doc.insertString(doc.getLength(), "\nProcess finished with exit code " + statusCode + "\n", null);
-            doc.insertString(doc.getLength(), "\nExecution Information:\n", null);
-            doc.insertString(doc.getLength(), "\nClasses: " + classesLoaded + "\n", null);
-            doc.insertString(doc.getLength(), "\nMethods: " + methodsCalled + "\n", null);
+                doc.insertString(doc.getLength(), "\nProcess finished with exit code " + statusCode + "\n", null);
+                doc.insertString(doc.getLength(), "\nExecution Information:\n", null);
+                doc.insertString(doc.getLength(), "\nClasses: " + classesLoaded + "\n", null);
+                doc.insertString(doc.getLength(), "\nMethods: " + methodsCalled + "\n", null);
+
+                // Find classes loaded in memory
+//                doc.insertString(doc.getLength(), "\nClasses loaded in memory: \n", null);
+                PrintWriter output = null;
+                try {
+                    output = new PrintWriter(new FileOutputStream(ProjectPath + "/" + ProjectName + "/classes_loaded_in_memory.txt"));
+                } catch (FileNotFoundException e) {
+                    System.out.println("Problem opening files.");
+                    System.exit(0);
+                }
+                System.out.println(outputPath);
+                Process p2 = rt.exec("java -verbose:class -classpath " + outputPath + " " + mainClass);
+                statusCode = p2.waitFor();
+                BufferedReader reader3 = new BufferedReader(new InputStreamReader(p2.getInputStream()));
+                String line1;
+//                System.out.println("Classed loaded in mem: ");
+                while ((line1 = reader3.readLine()) != null) {
+//                    doc.insertString(doc.getLength(), line1 + "\n", null);
+                    output.println(line1);
+                }
+
+                output.close();
+            }
         }
     }
 
