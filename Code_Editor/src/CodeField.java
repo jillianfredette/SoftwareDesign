@@ -76,6 +76,14 @@ try{
     }
 
 
+    if(this.getText().charAt(stringlength) == 'f' && this.getText().charAt(stringlength-1) == 'i') {
+        System.out.println("if");
+        StyleConstants.setForeground(style, Color.BLUE);
+        this.getStyledDocument().setCharacterAttributes(stringlength - 2, stringlength, style, false);
+        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
+        this.setForeground(Color.black);
+
+    }
 
     if(this.getText().charAt(stringlength) == 'e' && this.getText().charAt(stringlength-1) == 's'&& this.getText().charAt(stringlength-2) == 'l'&& this.getText().charAt(stringlength-3) == 'e') {
         System.out.println("else");
@@ -103,6 +111,8 @@ try{
         this.setForeground(Color.black);
 
     }
+
+
 
         if (this.getText().charAt(stringlength) == '+' || this.getText().charAt(stringlength) == '-' ||
                 this.getText().charAt(stringlength) == '*' || this.getText().charAt(stringlength) == '/' ||
