@@ -27,6 +27,8 @@ public class CodeField extends JTextPane implements ActionListener, KeyListener 
         this.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
         this.setPreferredSize(new Dimension(700, 1000));
         this.addKeyListener(this);
+        // here add if u see the symbols then add red text
+
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -58,13 +60,49 @@ public class CodeField extends JTextPane implements ActionListener, KeyListener 
     }
 
     public void keyTyped(KeyEvent e) {
-        String[] kevin = new String[10];
-        kevin[0] = "+";
-        kevin[1] = "-";
-        kevin[2] = "/";
-        kevin[3] = "||";
+
         String length = this.getText();
         int stringlength = length.length() - 1;
+
+
+try{
+    if(this.getText().charAt(stringlength) == 'f' && this.getText().charAt(stringlength-1) == 'i') {
+        System.out.println("if");
+        StyleConstants.setForeground(style, Color.BLUE);
+        this.getStyledDocument().setCharacterAttributes(stringlength - 2, stringlength, style, false);
+        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
+        this.setForeground(Color.black);
+
+    }
+
+
+
+    if(this.getText().charAt(stringlength) == 'e' && this.getText().charAt(stringlength-1) == 's'&& this.getText().charAt(stringlength-2) == 'l'&& this.getText().charAt(stringlength-3) == 'e') {
+        System.out.println("else");
+        StyleConstants.setForeground(style, Color.BLUE);
+        this.getStyledDocument().setCharacterAttributes(stringlength - 4, stringlength, style, false);
+        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
+        this.setForeground(Color.black);
+
+    }
+
+    if(this.getText().charAt(stringlength) == 'r' && this.getText().charAt(stringlength-1) == 'o'&& this.getText().charAt(stringlength-2) == 'f') {
+        System.out.println("for");
+        StyleConstants.setForeground(style, Color.BLUE);
+        this.getStyledDocument().setCharacterAttributes(stringlength - 3, stringlength, style, false);
+        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
+        this.setForeground(Color.black);
+
+    }
+    if(this.getText().charAt(stringlength) == 'e' && this.getText().charAt(stringlength-1) == 'l'&& this.getText().charAt(stringlength-2) == 'i'&& this.getText().charAt(stringlength-3) == 'h'&& this.getText().charAt(stringlength-4) == 'w') {
+
+        System.out.println("while");
+        StyleConstants.setForeground(style, Color.BLUE);
+        this.getStyledDocument().setCharacterAttributes(stringlength - 5, stringlength, style, false);
+        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
+        this.setForeground(Color.black);
+
+    }
 
         if (this.getText().charAt(stringlength) == '+' || this.getText().charAt(stringlength) == '-' ||
                 this.getText().charAt(stringlength) == '*' || this.getText().charAt(stringlength) == '/' ||
@@ -89,6 +127,14 @@ public class CodeField extends JTextPane implements ActionListener, KeyListener 
             this.setForeground(Color.black);
             StyleConstants.setForeground(style, Color.black);
         }
+
+}catch (Exception ex){
+
+}
+
+
+
+
     }
 
 }
