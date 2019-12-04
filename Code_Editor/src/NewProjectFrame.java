@@ -17,7 +17,6 @@ public class NewProjectFrame extends JFrame implements ActionListener {
 
     private String ProjectName;
     private String ProjectPath;
-//    private String ProjectSDKPath;
     private CodeEditorFrame ParentFrame;
 
 
@@ -33,7 +32,6 @@ public class NewProjectFrame extends JFrame implements ActionListener {
         this.add(InnerPanel, BorderLayout.WEST);
         InnerPanel.setBackground(Color.WHITE);
         InnerPanel.setPreferredSize(new Dimension(800, 400));
-//        InnerPanel.setLocation(50, 50);
         BoxLayout boxLayout = new BoxLayout(InnerPanel, BoxLayout.Y_AXIS);
         InnerPanel.setLayout(boxLayout);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 40)));
@@ -47,7 +45,6 @@ public class NewProjectFrame extends JFrame implements ActionListener {
         JPanel InnerPanel1 = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
         InnerPanel1.setLayout(flowLayout);
-//        InnerPanel.add(InnerPanel1);
         InnerPanel1.setBackground(Color.WHITE);
         InnerPanel1.setPreferredSize(new Dimension(300, 65));
         InnerPanel.add(InnerPanel1, BorderLayout.WEST);
@@ -59,7 +56,6 @@ public class NewProjectFrame extends JFrame implements ActionListener {
 
         InnerPanel1.add(textField1, BorderLayout.WEST);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 40)));
-//        ProjectNameLabel.setPreferredSize(new Dimension(200, 50));
 
         // Location Label
         JLabel LocationLabel = new JLabel("Project Location: ");
@@ -77,130 +73,61 @@ public class NewProjectFrame extends JFrame implements ActionListener {
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 40)));
 
         // Section for "Choose Project Location" button
-        LocationButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+        LocationButton.addActionListener(actionEvent -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Choose Project Location");
 
-//                JFrame saveProjectFrame = new JFrame();
+            // Set the selection mode to directories only
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Choose Project Location");
-
-                // Set the selection mode to directories only
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-                int option = fileChooser.showOpenDialog(null);
-                if(option == JFileChooser.APPROVE_OPTION){
-                    File file = fileChooser.getSelectedFile();
-                    ProjectPath = file.getPath();
-//                    System.out.println(ProjectPath);
-                    DestinationLabel.setText(ProjectPath);
-                }
+            int option = fileChooser.showOpenDialog(null);
+            if(option == JFileChooser.APPROVE_OPTION){
+                File file = fileChooser.getSelectedFile();
+                ProjectPath = file.getPath();
+                DestinationLabel.setText(ProjectPath);
             }
         });
 
-        // Project SDKs
-//        JLabel SDKLabel = new JLabel("Project SDKs ");
-//        InnerPanel.add(SDKLabel, BorderLayout.WEST);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 10)));
-//
-//        // Choose Location button
-//        JButton SDKButton = new JButton("Choose Project SDKs:");
-//        InnerPanel.add(SDKButton);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 10)));
-
-        // Project Location Text Label
-//        JLabel SDKOptionLabel = new JLabel(" ");
-//        InnerPanel.add(SDKOptionLabel);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 220)));
-
-        // Section for "Choose Project Location" button
-//        SDKButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//
-////                JFrame saveProjectFrame = new JFrame();
-//
-//                JFileChooser fileChooser = new JFileChooser();
-//                fileChooser.setDialogTitle("Choose Project SDKs");
-//
-//                // Set the selection mode to directories only
-//                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//
-//                int option = fileChooser.showOpenDialog(null);
-//                if(option == JFileChooser.APPROVE_OPTION){
-//                    File file = fileChooser.getSelectedFile();
-//                    ProjectSDKPath = file.getPath();
-////                    System.out.println(ProjectSDKPath);
-//                    SDKOptionLabel.setText(ProjectSDKPath);
-//                }
-//
-//            }
-//        });
 
         JButton button1 = new JButton("Submit");
         InnerPanel.add(button1, BorderLayout.SOUTH);
         InnerPanel.add(Box.createRigidArea(new Dimension(10, 280)));
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                ProjectName = textField1.getText();
+        button1.addActionListener(actionEvent -> {
+            ProjectName = textField1.getText();
 
-//                System.out.println(ProjectName);
-//                System.out.println(ProjectPath);
-//                System.out.println(ProjectSDKPath);
+            File newProjectFolder = new File(ProjectPath + '/' + ProjectName);
+            File srcFolder = new File(ProjectPath + '/' + ProjectName + '/' + "src");
+            File main = new File(ProjectPath + '/' + ProjectName + '/' + "src" + '/' + "Main.java");
+            PrintWriter pw;
 
-                File newProjectFolder = new File(ProjectPath + '/' + ProjectName);
-                File srcFolder = new File(ProjectPath + '/' + ProjectName + '/' + "src");
-                File main = new File(ProjectPath + '/' + ProjectName + '/' + "src" + '/' + "Main.java");
-                PrintWriter pw = null;
+            try {
+                if (newProjectFolder.mkdir()) {
+                    FileWriter fw = new FileWriter(main, true);
+                    pw = new PrintWriter(fw);
+                    pw.println("// This is the Main class.");
+                    pw.close();
 
-                try {
-                    if (newProjectFolder.mkdir()) {
-//                        System.out.println("Folder is created");
-                        srcFolder.mkdir();
-                        main.createNewFile();
+                    ParentFrame.displayNewProject(ProjectName, ProjectPath);
 
-                        FileWriter fw = new FileWriter(main, true);
-                        pw = new PrintWriter(fw);
-                        pw.println("// This is the Main class.");
-                        pw.close();
+                    setVisible(false);
 
-                        ParentFrame.displayNewProject(ProjectName, ProjectPath);
+                    dispose();
 
-                        setVisible(false);
-
-
-                        dispose();
-
-                    } else {
-                        JFrame openProjectFrame;
-                        openProjectFrame = new JFrame("Folder Exists");
-                        JOptionPane.showMessageDialog(openProjectFrame, "Folder Name Already Exists.");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    JFrame openProjectFrame;
+                    openProjectFrame = new JFrame("Folder Exists");
+                    JOptionPane.showMessageDialog(openProjectFrame, "Folder Name Already Exists.");
                 }
-
-
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
         });
 
     }
-
-    public String getProjectName() {
-//        ProjectName = textField1.getText();
-        return ProjectName;
-    }
-
-    public String getProjectPath() {
-        return ProjectPath;
-    }
-
-//    public String getProjectSDKPath() {
-//        return ProjectSDKPath;
-//    }
 
     public void actionPerformed(ActionEvent e) {
         String buttonString = e.getActionCommand();

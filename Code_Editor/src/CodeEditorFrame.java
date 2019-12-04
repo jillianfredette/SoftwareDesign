@@ -15,38 +15,42 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.awt.BorderLayout.WEST;
 
 
 public class CodeEditorFrame extends JFrame implements ActionListener {
 
-    JTextArea CodeField;
+
     private String osName = System.getProperty("os.name");
-    private ProjectTree theProjectTree;
     private String ProjectName;
     private String ProjectPath;
     private String outputPath;
     private JTextPane ExecutionPane;
-
+    private JLabel wordLabel;
+    private ProjectTree theProjectTree;
+    public CodeField theCodeField;
 
     public CodeEditorFrame() {
         // Create Frame
-        super ("Code Editor");
+        super("Code Editor");
         setSize(1500, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(Color.WHITE);
         setLayout(new BorderLayout());
+        createMenu();
+    }
 
+    public void createMenu() {
         try {
             // Set look and feel
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
             // Set theme to ocean
             MetalLookAndFeel.setCurrentTheme(new OceanTheme());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
         // Statistic Panel
@@ -55,12 +59,10 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         StatPanel.setBackground(Color.WHITE);
         StatPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.ORANGE));
         StatPanel.setPreferredSize(new Dimension(400, 800));
-        JLabel l1 = new JLabel("Words", JLabel.LEFT);
-        JLabel l2 = new JLabel("Characters");
-        StatPanel.add(l1);
-        StatPanel.add(l2);
-        l1.setBounds(50,25,100,30);
-        l2.setBounds(160,25,100,30);
+        wordLabel = new JLabel("Key words: 0", JLabel.LEFT);
+        StatPanel.add(wordLabel);
+        wordLabel.setBounds(50, 25, 100, 30);
+
 
         // Code Executing Panel
         JPanel ExecPanel = new JPanel();
@@ -105,18 +107,11 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         FileMenu.add(CloseProject);
         CloseProject.addActionListener(this);
 
-        // Menu Item Count Characters
-        JMenuItem CountCharacters = new JMenuItem("Count Characters");
-        FileMenu.add(CountCharacters);
-        CountCharacters.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String area = CodeField.getText();
-                String[] words = area.split("\\s");
-                l1.setText("Words: " + words.length);
-                l2.setText("Characters: " + area.length());
-            }
-        });
+        // Menu Item Count Words
+        JMenuItem CountWords = new JMenuItem("Count Words");
+        FileMenu.add(CountWords);
+        CountWords.addActionListener(e -> getWordCount(e));
+
         // Run Menu
         JMenu RunMenu = new JMenu("Run");
         JMenuItem CompileProject = new JMenuItem("Compile Project");
@@ -131,7 +126,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         MenuBar.add(RunMenu);
     }
 
-    public void displayNewProject (String theProjectName, String theProjectPath) {
+    public void displayNewProject(String theProjectName, String theProjectPath) {
 
         ProjectName = theProjectName;
         ProjectPath = theProjectPath;
@@ -151,73 +146,54 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
     }
 
     public void openProject() {
-    // create frame
-    JFrame openProjectFrame = new JFrame("Open Project");
+        // create frame
+        JFrame openProjectFrame = new JFrame("Open Project");
 
-    // Create the File Chooser
-    JFileChooser theFileChooser = new JFileChooser("f");
+        // Create the File Chooser
+        JFileChooser theFileChooser = new JFileChooser("f");
 
-    // Opens only Directories
-    theFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        // Opens only Directories
+        theFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-    // Invoke the showsOpenDialog function to show the save dialog
-    int option = theFileChooser.showOpenDialog(this);
+        // Invoke the showsOpenDialog function to show the save dialog
+        int option = theFileChooser.showOpenDialog(this);
 
-    // Opens the file the user selects if the file is acceptable
-    if (option == JFileChooser.APPROVE_OPTION) {
-        // Gets the selected directory
-        File theDirectory = theFileChooser.getSelectedFile();
+        // Opens the file the user selects if the file is acceptable
+        if (option == JFileChooser.APPROVE_OPTION) {
+            // Gets the selected directory
+            File theDirectory = theFileChooser.getSelectedFile();
 
-        String wholeProjectPath = theDirectory.getPath();
-        Path path = Paths.get(wholeProjectPath);
-        ProjectName = path.getFileName().toString();
-        ProjectPath = theDirectory.getParent();
+            String wholeProjectPath = theDirectory.getPath();
+            Path path = Paths.get(wholeProjectPath);
+            ProjectName = path.getFileName().toString();
+            ProjectPath = theDirectory.getParent();
 
-        // Create Project Tree
-        theProjectTree = new ProjectTree();
-        theProjectTree.openProjectTree(this, ProjectPath, ProjectName);
-        this.add(theProjectTree, WEST);
-        theProjectTree.setVisible(false);
-        theProjectTree.setVisible(true);
+            // Create Project Tree
+            theProjectTree = new ProjectTree();
+            theProjectTree.openProjectTree(this, ProjectPath, ProjectName);
+            this.add(theProjectTree, WEST);
+            theProjectTree.setVisible(false);
+            theProjectTree.setVisible(true);
+        }
+        // If the user cancelled the operation
+        else
+            JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
+
     }
-    // If the user cancelled the operation
-    else
-        JOptionPane.showMessageDialog(openProjectFrame, "the user cancelled the operation");
-
-}
 
     // Save all files in the project
     public void saveProject() {
-//        // write your code for Save Project functionality here
-//        JFrame saveProjectFrame = new JFrame("Save Project");
-//        JFileChooser fileChooser = new JFileChooser("f");
-//        JLabel saveLabel = new JLabel();
-//
-//        // Set the selection mode to directories only
-//        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//
-//        // Invoke the showsOpenDialog function to show the save dialog
-//        int saveDialog = fileChooser.showSaveDialog(null);
-//
-//        if (saveDialog == JFileChooser.APPROVE_OPTION) {
-//            // set the label to the path of the selected directory
-//            saveLabel.setText(fileChooser.getSelectedFile().getAbsolutePath());
-//        }
-//        // if the user cancelled the operation
-//        else
-////            saveLabel.setText("the user cancelled the operation");
-//            JOptionPane.showMessageDialog(saveProjectFrame, "the user cancelled the operation");
 
         int tabCount = theProjectTree.getTabCounts();
-        for (int i = 0; i < tabCount; i++){
+        for (int i = 0; i < tabCount; i++) {
             String fileName = theProjectTree.getTabTitle(i);
             System.out.println(fileName);
             try {
                 String filePath = ProjectPath + "/" + ProjectName + "/src/" + fileName;
                 FileWriter out = new FileWriter(filePath);
                 System.out.println(filePath);
-                CodeField thisCodeField = (CodeField)theProjectTree.getTabbedPane().getComponent(i);
-                out.write(thisCodeField.getText());
+                theCodeField = (CodeField) theProjectTree.getTabbedPane().getComponent(i);
+                out.write(theCodeField.getText());
                 out.close();
             } catch (Exception f) {
                 f.printStackTrace();
@@ -241,15 +217,15 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         File[] listOfFiles = folder.listFiles();
         ArrayList<String> listOfJavaFiles = new ArrayList<String>();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                String fileName = listOfFiles[i].getName();
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                String fileName = listOfFile.getName();
 
                 if (fileName.length() > 5) {
-                    String lastFiveDigits = "";     //substring containing last 5 characters
-                    lastFiveDigits = fileName.substring(fileName.length() - 5);
+                    // Substring containing last 5 characters
+                    String lastFiveDigits = fileName.substring(fileName.length() - 5);
 
-                    if (lastFiveDigits.equals(".java")){
+                    if (lastFiveDigits.equals(".java")) {
                         listOfJavaFiles.add(fileName);
 
                     }
@@ -259,10 +235,10 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
 
         //        String fileToCompile = ProjectPath + '/' + ProjectName + "/src/Main.java";
         String[] args = new String[listOfJavaFiles.size() + 2];
-        args[0] =  "-d";
+        args[0] = "-d";
         args[1] = outputPath;
-        for (int i=0; i<listOfJavaFiles.size(); i++){
-            args[i+2] = ProjectPath + '/' + ProjectName + "/src/" + listOfJavaFiles.get(i);
+        for (int i = 0; i < listOfJavaFiles.size(); i++) {
+            args[i + 2] = ProjectPath + '/' + ProjectName + "/src/" + listOfJavaFiles.get(i);
         }
         int status = javac.compile(args);
         System.out.println(status);
@@ -282,37 +258,37 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         String classesLoaded = "";
         String methodsCalled = "";
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                String fileName = listOfFiles[i].getName();
-                if(fileName.substring(fileName.length() - 6).equals(".class")){
-                    className = fileName.substring(0,fileName.length() - 6);
-                    classesLoaded = classesLoaded + "\n  "+className;
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                String fileName = listOfFile.getName();
+                if (fileName.substring(fileName.length() - 6).equals(".class")) {
+                    className = fileName.substring(0, fileName.length() - 6);
+                    classesLoaded = classesLoaded + "\n  " + className;
                     Process find = null;
-                    if(osName.toUpperCase().contains("WIN")){
-                        find = Runtime.getRuntime().exec("javap -p -cp "+outputPath+";. "+className);
+                    if (osName.toUpperCase().contains("WIN")) {
+                        find = Runtime.getRuntime().exec("javap -p -cp " + outputPath + ";. " + className);
                         find.waitFor();
-                        BufferedReader reader2=new BufferedReader(new InputStreamReader(find.getInputStream()));
+                        BufferedReader reader2 = new BufferedReader(new InputStreamReader(find.getInputStream()));
                         String line;
-                        while((line = reader2.readLine()) != null){
-                            if(line.contains("(")&&line.contains(")")){
-                                methodsCalled = methodsCalled + "\n"+line;
+                        while ((line = reader2.readLine()) != null) {
+                            if (line.contains("(") && line.contains(")")) {
+                                methodsCalled = methodsCalled + "\n" + line;
                             }
-                            if(line.length() > 25) {
+                            if (line.length() > 25) {
                                 if (line.substring(0, 25).equals("  public static void main"))
                                     mainClass = className;
                             }
                         }
-                    } else if(osName.toUpperCase().contains("MAC")){
+                    } else if (osName.toUpperCase().contains("MAC")) {
                         find = Runtime.getRuntime().exec("javap -cp " + outputPath + " " + className);
                         find.waitFor();
-                        BufferedReader reader2=new BufferedReader(new InputStreamReader(find.getInputStream()));
+                        BufferedReader reader2 = new BufferedReader(new InputStreamReader(find.getInputStream()));
                         String line;
-                        while((line = reader2.readLine()) != null){
-                            if(line.contains("(")&&line.contains(")")){
-                                methodsCalled = methodsCalled + "\n"+line;
+                        while ((line = reader2.readLine()) != null) {
+                            if (line.contains("(") && line.contains(")")) {
+                                methodsCalled = methodsCalled + "\n" + line;
                             }
-                            if(line.length() > 25) {
+                            if (line.length() > 25) {
                                 if (line.substring(0, 25).equals("  public static void main"))
                                     mainClass = className;
                             }
@@ -323,7 +299,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 }
             }
         }
-        if(!mainClass.equals("")) {
+        if (!mainClass.equals("")) {
             ExecutionPane.setText("");
 
 
@@ -335,7 +311,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             //can use javap -c for finding names of methods called during execution
             Process p = null;
             int statusCode = -1;
-            if(osName.toUpperCase().contains("WIN")){
+            if (osName.toUpperCase().contains("WIN")) {
                 p = rt.exec("java -cp " + outputPath + ";. " + mainClass);
                 statusCode = p.waitFor();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -343,7 +319,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 while ((line = reader.readLine()) != null) {
                     doc.insertString(doc.getLength(), line + "\n", null);
                 }
-            } else if(osName.toUpperCase().contains("MAC")) {
+            } else if (osName.toUpperCase().contains("MAC")) {
                 p = rt.exec("java -cp " + outputPath + " " + mainClass);
                 statusCode = p.waitFor();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -388,7 +364,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         // Open new frame to confirm closing of project
         JFrame CloseProjectFrame = new JFrame("Close Project");
         CloseProjectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        CloseProjectFrame.setSize(300,150);
+        CloseProjectFrame.setSize(300, 150);
         CloseProjectFrame.setLocation(550, 300);
 
         JPanel main = new JPanel();
@@ -430,7 +406,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //close project
-                if(theProjectTree != null) {
+                if (theProjectTree != null) {
                     theProjectTree.closeProjectTree();
                     removeProjectTree();
                     theProjectTree = null;
@@ -467,8 +443,7 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
             closeProject();
         } else if (buttonString.equals("Compile Project")) {
             compileProject();
-        }
-        else if (buttonString.equals("Execute Project")){
+        } else if (buttonString.equals("Execute Project")) {
             try {
                 executeProject();
             } catch (InvocationTargetException ex) {
@@ -481,22 +456,22 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
                 ex.printStackTrace();
             } catch (IOException ex) {
                 ex.printStackTrace();
-            } catch (InterruptedException ex){
+            } catch (InterruptedException ex) {
                 ex.printStackTrace();
-            }catch (BadLocationException ex){
+            } catch (BadLocationException ex) {
                 ex.printStackTrace();
             }
         }
     }
 
-    public void rightClickPerformed(){
+    public void rightClickPerformed() {
         JPopupMenu rMenu = new JPopupMenu();
         JMenuItem delete = new JMenuItem("Delete");
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(e.getButton() == MouseEvent.BUTTON3){
+                if (e.getButton() == MouseEvent.BUTTON3) {
                     rMenu.show(e.getComponent(), e.getX(), e.getY());
                     System.out.println("Right Click, Activated");
                 }
@@ -520,10 +495,42 @@ public class CodeEditorFrame extends JFrame implements ActionListener {
         return ProjectPath;
     }
 
-    public void removeProjectTree(){
-        if(theProjectTree != null) this.remove(theProjectTree);
+    public void removeProjectTree() {
+        if (theProjectTree != null) this.remove(theProjectTree);
     }
 
+    public void getWordCount(ActionEvent event) {
+
+        //As long as the text area is filled, it will run correctly
+        if (theCodeField != null) {
+
+            String text = theCodeField.getText();
+            int forCount = 0, whileCount = 0, ifCount = 0, elseCount = 0;
+            Pattern forPattern = Pattern.compile("for");
+            Pattern whilePattern = Pattern.compile("while");
+            Pattern ifPattern = Pattern.compile("if");
+            Pattern elsePattern = Pattern.compile("else");
+            Matcher forMatcher = forPattern.matcher(text);
+            Matcher whileMatcher = whilePattern.matcher(text);
+            Matcher ifMatcher = ifPattern.matcher(text);
+            Matcher elseMatcher = elsePattern.matcher(text);
+
+            //Each line of the code is read as an array
+            while (forMatcher.find()) {
+                forCount++;
+            }
+            while (whileMatcher.find()) {
+                whileCount++;
+            }
+            while (ifMatcher.find()) {
+                ifCount++;
+            }
+            while (elseMatcher.find()) {
+                elseCount++;
+            }
+
+            String message = ("Amount of for: " + forCount + "\n Amount of while: " + whileCount + "\n Amount of if: " + ifCount + "\n Amount of else: " + elseCount);
+            wordLabel.setText(message);
+        }
+    }
 }
-
-

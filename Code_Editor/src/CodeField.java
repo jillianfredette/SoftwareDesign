@@ -64,76 +64,72 @@ public class CodeField extends JTextPane implements ActionListener, KeyListener 
         String length = this.getText();
         int stringlength = length.length() - 1;
 
-
-try{
-    if(this.getText().charAt(stringlength) == 'f' && this.getText().charAt(stringlength-1) == 'i') {
-        System.out.println("if");
-        StyleConstants.setForeground(style, Color.BLUE);
-        this.getStyledDocument().setCharacterAttributes(stringlength - 2, stringlength, style, false);
-        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
-        this.setForeground(Color.black);
-
-    }
-
-
-
-    if(this.getText().charAt(stringlength) == 'e' && this.getText().charAt(stringlength-1) == 's'&& this.getText().charAt(stringlength-2) == 'l'&& this.getText().charAt(stringlength-3) == 'e') {
-        System.out.println("else");
-        StyleConstants.setForeground(style, Color.BLUE);
-        this.getStyledDocument().setCharacterAttributes(stringlength - 4, stringlength, style, false);
-        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
-        this.setForeground(Color.black);
-
-    }
-
-    if(this.getText().charAt(stringlength) == 'r' && this.getText().charAt(stringlength-1) == 'o'&& this.getText().charAt(stringlength-2) == 'f') {
-        System.out.println("for");
-        StyleConstants.setForeground(style, Color.BLUE);
-        this.getStyledDocument().setCharacterAttributes(stringlength - 3, stringlength, style, false);
-        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
-        this.setForeground(Color.black);
-
-    }
-    if(this.getText().charAt(stringlength) == 'e' && this.getText().charAt(stringlength-1) == 'l'&& this.getText().charAt(stringlength-2) == 'i'&& this.getText().charAt(stringlength-3) == 'h'&& this.getText().charAt(stringlength-4) == 'w') {
-
-        System.out.println("while");
-        StyleConstants.setForeground(style, Color.BLUE);
-        this.getStyledDocument().setCharacterAttributes(stringlength - 5, stringlength, style, false);
-        StyleConstants.setForeground(style, Color.BLUE); // changes it to red
-        this.setForeground(Color.black);
-
-    }
-
-        if (this.getText().charAt(stringlength) == '+' || this.getText().charAt(stringlength) == '-' ||
-                this.getText().charAt(stringlength) == '*' || this.getText().charAt(stringlength) == '/' ||
-                (this.getText().charAt(stringlength) == '|' && this.getText().charAt(stringlength - 1) == '|') ||
-                (this.getText().charAt(stringlength) == '&' && this.getText().charAt(stringlength - 1) == '&')) {
-
-            if ((this.getText().charAt(stringlength) == '|' && this.getText().charAt(stringlength - 1) == '|')) {
-                StyleConstants.setForeground(style, Color.red);
-                this.getStyledDocument().setCharacterAttributes(stringlength - 1, stringlength, style, false);
-                StyleConstants.setForeground(style, Color.red); // changes it to red
+        try{
+            // Highlights keywords blue
+            if(this.getText().charAt(stringlength) == 'f' && this.getText().charAt(stringlength-1) == 'i') {
+                System.out.println("if");
+                StyleConstants.setForeground(style, Color.BLUE);
+                this.getStyledDocument().setCharacterAttributes(stringlength - 2, stringlength, style, false);
+                StyleConstants.setForeground(style, Color.BLUE);
                 this.setForeground(Color.black);
+
             }
-            if ((this.getText().charAt(stringlength) == '&' && this.getText().charAt(stringlength - 1) == '&')) {
-                StyleConstants.setForeground(style, Color.red);
-                this.getStyledDocument().setCharacterAttributes(stringlength - 1, stringlength, style, false);
-                StyleConstants.setForeground(style, Color.red); // changes it to red
+
+            if(this.getText().charAt(stringlength) == 'e' && this.getText().charAt(stringlength-1) == 's'&& this.getText().charAt(stringlength-2) == 'l'&& this.getText().charAt(stringlength-3) == 'e') {
+                System.out.println("else");
+                StyleConstants.setForeground(style, Color.BLUE);
+                this.getStyledDocument().setCharacterAttributes(stringlength - 4, stringlength, style, false);
+                StyleConstants.setForeground(style, Color.BLUE);
                 this.setForeground(Color.black);
+
             }
-            StyleConstants.setForeground(style, Color.red);
-            this.getStyledDocument().setCharacterAttributes(stringlength, stringlength, style, false);
-            StyleConstants.setForeground(style, Color.red); // changes it to red
-            this.setForeground(Color.black);
-            StyleConstants.setForeground(style, Color.black);
+
+            if(this.getText().charAt(stringlength) == 'r' && this.getText().charAt(stringlength-1) == 'o'&& this.getText().charAt(stringlength-2) == 'f') {
+                System.out.println("for");
+                StyleConstants.setForeground(style, Color.BLUE);
+                this.getStyledDocument().setCharacterAttributes(stringlength - 3, stringlength, style, false);
+                StyleConstants.setForeground(style, Color.BLUE);
+                this.setForeground(Color.black);
+
+            }
+            if(this.getText().charAt(stringlength) == 'e' && this.getText().charAt(stringlength-1) == 'l'&& this.getText().charAt(stringlength-2) == 'i'&& this.getText().charAt(stringlength-3) == 'h'&& this.getText().charAt(stringlength-4) == 'w') {
+
+                System.out.println("while");
+                StyleConstants.setForeground(style, Color.BLUE);
+                this.getStyledDocument().setCharacterAttributes(stringlength - 5, stringlength, style, false);
+                StyleConstants.setForeground(style, Color.BLUE);
+                this.setForeground(Color.black);
+
+            }
+
+            // Highlights operators red
+            if (this.getText().charAt(stringlength) == '+' || this.getText().charAt(stringlength) == '-' ||
+                    this.getText().charAt(stringlength) == '*' || this.getText().charAt(stringlength) == '/' ||
+                    (this.getText().charAt(stringlength) == '|' && this.getText().charAt(stringlength - 1) == '|') ||
+                    (this.getText().charAt(stringlength) == '&' && this.getText().charAt(stringlength - 1) == '&')) {
+
+                if ((this.getText().charAt(stringlength) == '|' && this.getText().charAt(stringlength - 1) == '|')) {
+                    StyleConstants.setForeground(style, Color.red);
+                    this.getStyledDocument().setCharacterAttributes(stringlength - 1, stringlength, style, false);
+                    StyleConstants.setForeground(style, Color.red);
+                    this.setForeground(Color.black);
+                }
+                if ((this.getText().charAt(stringlength) == '&' && this.getText().charAt(stringlength - 1) == '&')) {
+                    StyleConstants.setForeground(style, Color.red);
+                    this.getStyledDocument().setCharacterAttributes(stringlength - 1, stringlength, style, false);
+                    StyleConstants.setForeground(style, Color.red);
+                    this.setForeground(Color.black);
+                }
+                StyleConstants.setForeground(style, Color.red);
+                this.getStyledDocument().setCharacterAttributes(stringlength, stringlength, style, false);
+                StyleConstants.setForeground(style, Color.red);
+                this.setForeground(Color.black);
+                StyleConstants.setForeground(style, Color.black);
+            }
+
+        }catch (Exception ex){
+
         }
-
-}catch (Exception ex){
-
-}
-
-
-
 
     }
 

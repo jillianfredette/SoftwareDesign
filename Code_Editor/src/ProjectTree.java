@@ -16,14 +16,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
 
 
 public class ProjectTree extends JPanel implements TreeSelectionListener {
 
     private String osName = System.getProperty("os.name");
     private JTree tree;
-    DefaultMutableTreeNode top;
+    private DefaultMutableTreeNode top;
     private DefaultTreeModel treeModel;
     //Optionally set the look and feel.
     private static boolean useSystemLookAndFeel = false;
@@ -37,23 +36,6 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         super(new GridLayout(1, 0));
 
     }
-
-    // Required by TreeSelectionListener interface.
-
-    public void valueChanged(TreeSelectionEvent e) {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                tree.getLastSelectedPathComponent();
-
-        if (node == null) return;
-
-        Object nodeInfo = node.getUserObject();
-        if (node.isLeaf()) {
-            System.out.println("Node is a leaf");
-        } else {
-
-        }
-    }
-
     public void createProjectTree(CodeEditorFrame theMainFrame, String theProjectName, String theProjectPath){
         ProjectName = theProjectName;
         ProjectPath = theProjectPath;
@@ -77,7 +59,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
 
         //Add the tree view to this panel.
         add(treeView);
-        tree.setScrollsOnExpand(false);
+        //tree.setScrollsOnExpand(false);
 
         // Show Popup on Tree
         final TreePopup treePopup = new TreePopup(tree);
@@ -137,10 +119,35 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
         });
     }
 
+    public void closeProjectTree(){
+
+        if(tabbedPane != null){
+            tabbedPane.removeAll();
+            theCodeEditorFrame.remove(tabbedPane);
+        }
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+        root.removeAllChildren();
+        model.reload();
+        model.setRoot(null);
+    }
+
+    // Required by TreeSelectionListener interface.
+    public void valueChanged(TreeSelectionEvent e) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+                tree.getLastSelectedPathComponent();
+
+        if (node == null) return;
+
+        if (node.isLeaf()) {
+            System.out.println("Node is a leaf");
+        }
+    }
+
     // Creates Nodes for Tree
     private void createNodes(DefaultMutableTreeNode top) {
-        DefaultMutableTreeNode folder = null;
-        DefaultMutableTreeNode file = null;
+        DefaultMutableTreeNode folder;
+        DefaultMutableTreeNode file;
 
         folder = new DefaultMutableTreeNode("src");
         top.add(folder);
@@ -157,9 +164,7 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
     }
 
     public String getTabTitle(int num){
-        int count = this.getTabCounts();
-        String title = tabbedPane.getTitleAt(num);
-        return title;
+        return tabbedPane.getTitleAt(num);
     }
 
     public JTabbedPane getTabbedPane(){
@@ -174,55 +179,47 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
             JMenuItem add = new JMenuItem("Add File");
             JMenuItem open = new JMenuItem("Open File");
             JMenuItem close = new JMenuItem("Close File");
-            JMenuItem count = new JMenuItem("Count Characters");
-            JMenuItem addFolder = new JMenuItem("Add Folder");
-            JTextField field1 = new JTextField("File Name");
 
 
-            delete.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae) {
-                    System.out.println("Delete child");
-                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
-                    DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-                    model.removeNodeFromParent(selectedNode);
-                }
+            delete.addActionListener(ae -> {
+                System.out.println("Delete child");
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
+                DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+                model.removeNodeFromParent(selectedNode);
             });
             add(delete);
             add(new JSeparator());
 
-            add.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae) {
-                    System.out.println("Add child");
-                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
-                    DefaultMutableTreeNode tempRoot = selectedNode.getPreviousNode();
-                    DefaultMutableTreeNode root = (DefaultMutableTreeNode) selectedNode.getRoot();
+            add.addActionListener(ae -> {
+                System.out.println("Add child");
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
+                DefaultMutableTreeNode tempRoot = selectedNode.getPreviousNode();
+                DefaultMutableTreeNode root = (DefaultMutableTreeNode) selectedNode.getRoot();
 
-                    if(selectedNode.isLeaf()){
+                if(selectedNode.isLeaf()){
 
-                    } else {
-                        String input = JOptionPane.showInputDialog("New File Name");
+                } else {
+                    String input = JOptionPane.showInputDialog("New File Name");
 
-                        if (input != null) {
-                            if (!input.contains(".java")){
-                                input = input + ".java";
-                            }
-                            DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-                            DefaultMutableTreeNode folder = null;
-                            selectedNode.add(new DefaultMutableTreeNode(input));
-
-                            File newClass = new File(ProjectPath + '/' + ProjectName + '/' + "src" + '/' + input);
-
-                            try {
-                                PrintWriter pw = null;
-                                FileWriter fw = new FileWriter(newClass, true);
-                                pw = new PrintWriter(fw);
-                                pw.println("// This is the " + input + " file.");
-                                pw.close();
-                            } catch (IOException e) {
-                                System.err.println("Problem writing to the file.");
-                            }
-                            model.reload();
+                    if (input != null) {
+                        if (!input.contains(".java")){
+                            input = input + ".java";
                         }
+                        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+                        DefaultMutableTreeNode folder = null;
+                        selectedNode.add(new DefaultMutableTreeNode(input));
+
+                        File newClass = new File(ProjectPath + '/' + ProjectName + '/' + "src" + '/' + input);
+
+                        try {
+                            FileWriter fw = new FileWriter(newClass, true);
+                            PrintWriter pw = new PrintWriter(fw);
+                            pw.println("// This is the " + input + " file.");
+                            pw.close();
+                        } catch (IOException e) {
+                            System.err.println("Problem writing to the file.");
+                        }
+                        model.reload();
                     }
                 }
             });
@@ -230,158 +227,124 @@ public class ProjectTree extends JPanel implements TreeSelectionListener {
             add(new JSeparator());
 
 
-            open.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    TreePath tp = tree.getSelectionPath();
-                    Object filePathToAdd = tp.getLastPathComponent();
-                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) filePathToAdd;
+            open.addActionListener(e -> {
+                TreePath tp = tree.getSelectionPath();
+                Object filePathToAdd = tp.getLastPathComponent();
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) filePathToAdd;
 
-                    if(selectedNode.isLeaf()) {
-                        String path = tp.toString();
-                        String diskPath = "";
-                        if(osName.toUpperCase().contains("WIN"))
-                            diskPath = ProjectPath + "\\" +
-                                path.replace("[", "").replace("]","").replace(", ", File.separator);
-                        else if(osName.toUpperCase().contains("MAC"))
-                            diskPath = ProjectPath + "/" +
-                                    path.replaceAll("\\]| |\\[|", "").replaceAll(",", File.separator);
-                        System.out.println(diskPath);
-                        String fileName = selectedNode.getUserObject().toString();
-                        File newFile = new File(diskPath);
+                if(selectedNode.isLeaf()) {
+                    String path = tp.toString();
+                    String diskPath = "";
+                    if(osName.toUpperCase().contains("WIN"))
+                        diskPath = ProjectPath + "\\" +
+                            path.replace("[", "").replace("]","").replace(", ", File.separator);
+                    else if(osName.toUpperCase().contains("MAC"))
+                        diskPath = ProjectPath + "/" +
+                                path.replaceAll("\\]| |\\[|", "").replaceAll(",", File.separator);
+                    System.out.println(diskPath);
+                    String fileName = selectedNode.getUserObject().toString();
+                    File newFile = new File(diskPath);
 
-                        if (tabbedPane == null) {
+                    if (tabbedPane == null) {
 
-                            tabbedPane = new JTabbedPane();
+                        tabbedPane = new JTabbedPane();
 
-                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
+                        theCodeEditorFrame.theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
 
-                            JScrollPane scrollableCodePane = new JScrollPane(theCodeField, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                        JScrollPane scrollableCodePane = new JScrollPane(theCodeEditorFrame.theCodeField, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-                            if (newFile != null) {
-                                try {
-                                    theCodeField.setPage(newFile.toURI().toURL());
-                                } catch (IOException e1) {
-                                    System.err.println("Attempted to read a bad file " + newFile );
-                                    e1.printStackTrace();
-                                }
-                            } else {
-                                System.err.println("Couldn't find file");
+                        if (newFile != null) {
+                            try {
+                                theCodeEditorFrame.theCodeField.setPage(newFile.toURI().toURL());
+                            } catch (IOException e1) {
+                                System.err.println("Attempted to read a bad file " + newFile );
+                                e1.printStackTrace();
                             }
-                            tabbedPane.addTab(selectedNode.getUserObject().toString(), scrollableCodePane);
-                            theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
-                            tabbedPane.setVisible(false);
-                            tabbedPane.setVisible(true);
                         } else {
-                            CodeField theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
-                            JScrollPane scrollableCodeField = new JScrollPane(theCodeField, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                            scrollableCodeField.setBounds(5,5,300,200);
-
-                            if (newFile != null) {
-                                try {
-                                    theCodeField.setPage(newFile.toURI().toURL());
-                                } catch (IOException e1) {
-                                    System.err.println("Attempted to read a bad file " + newFile );
-                                    e1.printStackTrace();
-                                }
-                            } else {
-                                System.err.println("Couldn't find file");
-                            }
-                            tabbedPane.addTab(selectedNode.getUserObject().toString(), scrollableCodeField);
-                            theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
-                            tabbedPane.setVisible(false);
-                            tabbedPane.setVisible(true);
-
+                            System.err.println("Couldn't find file");
                         }
+                        tabbedPane.addTab(selectedNode.getUserObject().toString(), scrollableCodePane);
+                        theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
+                        tabbedPane.setVisible(false);
+                        tabbedPane.setVisible(true);
+                    } else {
+                        theCodeEditorFrame.theCodeField = new CodeField(ProjectName, ProjectPath, fileName);
+                        JScrollPane scrollableCodeField = new JScrollPane(theCodeEditorFrame.theCodeField, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                        scrollableCodeField.setBounds(5,5,300,200);
+
+                        if (newFile != null) {
+                            try {
+                                theCodeEditorFrame.theCodeField.setPage(newFile.toURI().toURL());
+                            } catch (IOException e1) {
+                                System.err.println("Attempted to read a bad file " + newFile );
+                                e1.printStackTrace();
+                            }
+                        } else {
+                            System.err.println("Couldn't find file");
+                        }
+                        tabbedPane.addTab(selectedNode.getUserObject().toString(), scrollableCodeField);
+                        theCodeEditorFrame.add(tabbedPane,  BorderLayout.CENTER);
+                        tabbedPane.setVisible(false);
+                        tabbedPane.setVisible(true);
+
                     }
                 }
             });
-
             add(open);
             add(new JSeparator());
 
-            close.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
+            close.addActionListener(e -> {
 
-                    TreePath tp = tree.getSelectionPath();
-                    Object filePathToAdd = tp.getLastPathComponent();
-                    DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) filePathToAdd;
+                TreePath tp = tree.getSelectionPath();
+                Object filePathToAdd = tp.getLastPathComponent();
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) filePathToAdd;
 
-                    JFrame CloseProjectFrame = new JFrame("Close File");
-                    CloseProjectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    CloseProjectFrame.setSize(600,150);
-                    CloseProjectFrame.setLocation(550, 300);
+                JFrame CloseProjectFrame = new JFrame("Close File");
+                CloseProjectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                CloseProjectFrame.setSize(600,150);
+                CloseProjectFrame.setLocation(550, 300);
 
-                    JPanel main = new JPanel();
-                    CloseProjectFrame.add(main);
+                JPanel main = new JPanel();
+                CloseProjectFrame.add(main);
 
-                    main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
-                    JPanel message = new JPanel(new BorderLayout());
+                main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
+                JPanel message = new JPanel(new BorderLayout());
 
-                    main.add(message);
+                main.add(message);
 
-                    JLabel confirmClose = new JLabel("Are you sure you want to close this file? Don't forget to save before closing using 'Ctrl + S'.", SwingConstants.CENTER);
-                    message.add(confirmClose, BorderLayout.CENTER);
+                JLabel confirmClose = new JLabel("Are you sure you want to close this file? Don't forget to save before closing using 'Ctrl + S'.", SwingConstants.CENTER);
+                message.add(confirmClose, BorderLayout.CENTER);
 
-                    JPanel buttons = new JPanel(new FlowLayout());
-                    main.add(buttons);
+                JPanel buttons = new JPanel(new FlowLayout());
+                main.add(buttons);
 
-                    JButton buttonclose = new JButton("Close");
-                    JButton buttoncancel = new JButton("Cancel");
+                JButton buttonclose = new JButton("Close");
+                JButton buttoncancel = new JButton("Cancel");
 
-                    buttons.add(buttonclose);
-                    buttons.add(buttoncancel);
+                buttons.add(buttonclose);
+                buttons.add(buttoncancel);
 
 
-                    //if yes, close project
-                    buttonclose.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            //close file
-                            if(selectedNode.isLeaf()){
+                //if yes, close project
+                buttonclose.addActionListener(e13 -> {
+                    //close file
+                    if(selectedNode.isLeaf()){
 
-                                tabbedPane.remove(tabbedPane.getSelectedComponent());
-                            }
-                            CloseProjectFrame.dispose();
-                        }
-                    });
+                        tabbedPane.remove(tabbedPane.getSelectedComponent());
+                    }
+                    CloseProjectFrame.dispose();
+                });
 
-                    //if cancel, end close operation
-                    buttoncancel.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            CloseProjectFrame.dispose();
-                        }
-                    });
+                //if cancel, end close operation
+                buttoncancel.addActionListener(e12 -> CloseProjectFrame.dispose());
 
-                    CloseProjectFrame.setVisible(true);
+                CloseProjectFrame.setVisible(true);
 
-                }
             });
-
             add(close);
         }
-    }
-
-
-    public void deleteDirectory(Path path) throws IOException {
-
-    }
-
-    public void closeProjectTree(){
-
-        if(tabbedPane != null){
-            tabbedPane.removeAll();
-            theCodeEditorFrame.remove(tabbedPane);
-        }
-        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        root.removeAllChildren();
-        model.reload();
-        model.setRoot(null);
     }
 
 }
